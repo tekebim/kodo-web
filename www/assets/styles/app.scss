@@ -1,4 +1,6 @@
-$red: #831865;
+@import "custom";
+@import "~bootstrap/scss/bootstrap";
+
 body {
   background-color: $red;
 }
