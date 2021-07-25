@@ -16,9 +16,17 @@ RUN apt update \
 
 WORKDIR /var/www/${APP_DIR_NAME}
 
+# Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --${COMPOSER_VERSION} --install-dir=/usr/local/bin --filename=composer
 
+# Install NodeJS
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get update && apt-get install -y nodejs && apt-get clean
+RUN npm install -g -y yarn
+
+# Install Symfony CLI
 RUN curl -sS https://get.symfony.com/cli/installer | bash
 RUN mv /root/.symfony/bin/symfony /usr/local/bin/symfony
 
+# Config Git user
 RUN git config --global user.email "${GIT_USER_EMAIL}" && git config --global user.name "${GIT_USER_NAME}"
