@@ -44,10 +44,16 @@ class Establishment
      */
     private $conferences;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Widget::class, mappedBy="establishment")
+     */
+    private $widgets;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
         $this->conferences = new ArrayCollection();
+        $this->widgets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +152,33 @@ class Establishment
             if ($conference->getEstablishment() === $this) {
                 $conference->setEstablishment(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Widget[]
+     */
+    public function getWidgets(): Collection
+    {
+        return $this->widgets;
+    }
+
+    public function addWidget(Widget $widget): self
+    {
+        if (!$this->widgets->contains($widget)) {
+            $this->widgets[] = $widget;
+            $widget->addEstablishment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWidget(Widget $widget): self
+    {
+        if ($this->widgets->removeElement($widget)) {
+            $widget->removeEstablishment($this);
         }
 
         return $this;

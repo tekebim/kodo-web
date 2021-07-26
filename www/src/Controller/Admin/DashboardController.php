@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Entity\Conference;
+use App\Entity\Establishment;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -20,16 +22,16 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        // return parent::index();
+        return parent::index();
 
         // you can also render some template to display a proper Dashboard
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         // return $this->render('some/path/my-dashboard.html.twig');
 
-        $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
-        $url = $routeBuilder->setController(ConferenceCrudController::class)->generateUrl();
+        // $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
+        // $url = $routeBuilder->setController(ConferenceCrudController::class)->generateUrl();
 
-        return $this->redirect($url);
+        // return $this->redirect($url);
     }
 
     /**
@@ -64,7 +66,8 @@ class DashboardController extends AbstractDashboardController
     {
         return Dashboard::new()
             ->setTitle('KodoTalks')
-            ->setFaviconPath('favicon.svg');
+            ->setFaviconPath('favicon.svg')
+            ->setTranslationDomain('fr');
     }
 
     public function configureMenuItems(): iterable
@@ -72,9 +75,11 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Administration')->setPermission('ROLE_ADMIN');;
         yield MenuItem::linkToCrud('Catégories', 'fas fa-map-marker-alt', Category::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-map-marker-alt', User::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Établissements', 'fas fa-map-marker-alt', Establishment::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Conférences', 'fas fa-map-marker-alt', Conference::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::section('Configuration');
-        yield MenuItem::linkToCrud('Conferences', 'fas fa-map-marker-alt', Conference::class);
-        yield MenuItem::linktoDashboard('Item for Administrator', 'fa fa-tools')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Mes conférences', 'fas fa-map-marker-alt', Conference::class);
 
         /*
         if ($this->isGranted('ROLE_EDITOR')) {
@@ -83,6 +88,11 @@ class DashboardController extends AbstractDashboardController
         */
         // yield MenuItem::linkToCrud('Blog Posts', null, BlogPost::class)->setPermission('ROLE_USER');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+
+        yield MenuItem::linkToLogout('Déconnexion', 'fa fa-exit');
+        yield MenuItem::linkToRoute('Quitter', 'fa fa-home', 'home');
+        // yield MenuItem::linkToRoute('The Label', 'fa ...', 'route_name', ['routeParamName' => 'routeParamValue']);
+
     }
 
     public function configureAssets(): Assets
