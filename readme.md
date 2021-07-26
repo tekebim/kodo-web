@@ -51,3 +51,16 @@ yarn run encore dev --watch
 yarn add postcss-loader autoprefixer --dev
 yarn add bootstrap@next
 ```
+
+#### Execute symfony console command
+```
+symfony console make:entity Establishment
+symfony console make:controller EstablishmentController
+symfony console doctrine:schema:update -f
+```
+
+#### ORM Doctrine remove field from Entity
+```
+symfony console doctrine:migrations:diff
+symfony console doctrine:migrations:migrate
+```

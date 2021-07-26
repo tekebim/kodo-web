@@ -37,6 +37,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Establishment::class, inversedBy="members")
+     */
+    private $establishment;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,5 +129,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getEstablishment(): ?Establishment
+    {
+        return $this->establishment;
+    }
+
+    public function setEstablishment(?Establishment $establishment): self
+    {
+        $this->establishment = $establishment;
+
+        return $this;
     }
 }
