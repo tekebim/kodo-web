@@ -1,41 +1,47 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block main %}
-    <div class="container">
-        <h1>Liste des conférences :</h1>
+    <section>
+        <div class="container">
+            <h1>Liste des conférences :</h1>
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom de la conférence</th>
-                <th>Localisation</th>
-                <th>Organisateur</th>
-                <th>Intervenants</th>
-                <th>Etablissement</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for conference in conferences %}
+            <table class="table">
+                <thead>
                 <tr>
-                    <td>{{ conference.id }}</td>
-                    <td>{{ conference.name }}</td>
-                    <td>{{ conference.location }}</td>
-                    <td>{{ conference.author }}</td>
-                    <td>{{ conference.speakers }}</td>
-                    <td>{{ conference.establishment }}</td>
-                    <td>
-                        <a href="">Editer</a> -
-                        <a href="">Supprimer</a>
-                    </td>
+                    <th>Id</th>
+                    <th>Nom de la conférence</th>
+                    <th>Localisation</th>
+                    <th>Organisateur</th>
+                    <th>Intervenants</th>
+                    <th>Etablissement</th>
+                    <th>Actions</th>
                 </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">Aucune conférence trouvée</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                {% for conference in conferences %}
+                    <tr>
+                        <td>{{ conference.id }}</td>
+                        <td>{{ conference.name }}</td>
+                        <td>{{ conference.location }}</td>
+                        <td>{{ conference.author }}</td>
+                        <td>{{ conference.speakers }}</td>
+                        <td>{{ conference.establishment }}</td>
+                        <td>
+                            <a href="">Editer</a> -
+                            <a href="">Supprimer</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucune conférence trouvée</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="d-flex justify-content-center">
+            {% do conferences.setPageRange(2) %}
+            {{ knp_pagination_render(conferences, 'base/pagination.html.twig') }}
+        </div>
+    </section>
 {% endblock %}

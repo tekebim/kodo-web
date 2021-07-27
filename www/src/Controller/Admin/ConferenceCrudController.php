@@ -11,6 +11,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 
@@ -55,13 +57,18 @@ class ConferenceCrudController extends AbstractCrudController
      * @param ConferenceRepository $conferenceRepository
      * @return Response
      */
-    public function showEstablishmentConferences(ConferenceRepository $conferenceRepository): Response
+    public function showEstablishmentConferences(ConferenceRepository $conferenceRepository, PaginatorInterface $paginator, Request $request): Response
     {
-
         $user = $this->getUser();
         $userEstablishmentID = $user->getEstablishmentID();
 
-        $conferences = $conferenceRepository->findBy(['establishment' => $userEstablishmentID]);
+        $conferencesSelected = $conferenceRepository->findBy(['establishment' => $userEstablishmentID]);
+
+        $conferences = $paginator->paginate(
+            $conferencesSelected,
+            $request->query->getInt('page', 1),
+            8
+        );
         // $conferences = $conferenceRepository->findByEstablishment(548);
 
         return $this->render('Admin/conferences/list.html.twig', [
