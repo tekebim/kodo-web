@@ -16,14 +16,14 @@ class WidgetController extends AbstractController
     #[Route('/widget', name: 'widget')]
     public function index(Request $request, WidgetRepository $widgetRepository): Response
     {
-        $establishmentGetParam = $request->query->get('establishment');
-
-        $widgets = $widgetRepository->findBy(['establishement', $establishmentGetParam]);
-
-        dd($widgets);
+        $tokenGetParam = $request->query->get('token');
+        $widgetIdGetParam = $request->query->get('id');
+        $widget = $widgetRepository->find($widgetIdGetParam);
+        $isValidToken = ($tokenGetParam === $widget->getToken());
 
         return $this->render('widget/index.html.twig', [
-            'establishment' => $establishment
+            'isValidToken' => $isValidToken,
+            'widget' => $widget
         ]);
     }
 }

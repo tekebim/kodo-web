@@ -31,10 +31,13 @@ class WidgetCrudController extends AbstractCrudController
      */
     public function showMyWidget(WidgetRepository $widgetRepository): Response
     {
+        $user = $this->getUser();
+        $userEstablishmentID = $user->getEstablishmentID();
 
-        $widgetsFiltered = $widgetRepository->findByEstablishment(519);
+        $widgetsFiltered = $widgetRepository->findByEstablishment($userEstablishmentID);
 
         return $this->render('Admin/widget.html.twig', [
+            'establishment_id' => $userEstablishmentID,
             'widgets' => $widgetsFiltered,
         ]);
     }

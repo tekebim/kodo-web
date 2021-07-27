@@ -462,9 +462,11 @@ class EstablishmentFixtures extends Fixture
                     ->setDescription($faker->text)
                     ->setEstablishment($establishment)
                     ->setUrl($faker->url)
+                    ->addCategory()
                     ->setReplayUrl(null)
                     ->setImageName(null)
-                    ->setVideoName(null);
+                    ->setVideoName(null)
+                    ->setIsShared($faker->boolean(50));
 
                 $manager->persist($conference);
             }

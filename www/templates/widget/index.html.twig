@@ -5,8 +5,12 @@
 {% block body %}
     <div id="kodo-widget" class="widget">
         <div class="widget-inner">
-            {{ establishment }}
-            {{ dump(establishment) }}
+            {% if isValidToken %}
+                <h1>Token est valide</h1>
+            {% else %}
+                <h1>Token est invalide</h1>
+            {% endif %}
+
             {# establishment.extract|u.truncate(50, '...', true) #}
         </div>
     </div>

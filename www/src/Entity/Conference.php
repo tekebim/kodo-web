@@ -118,6 +118,11 @@ class Conference
      */
     private $videoName;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isShared;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -346,6 +351,18 @@ class Conference
     public function setVideoName(?string $videoName): self
     {
         $this->videoName = $videoName;
+
+        return $this;
+    }
+
+    public function getIsShared(): ?bool
+    {
+        return $this->isShared;
+    }
+
+    public function setIsShared(bool $isShared): self
+    {
+        $this->isShared = $isShared;
 
         return $this;
     }
