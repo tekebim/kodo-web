@@ -32,6 +32,7 @@ class ConferenceCrudController extends AbstractCrudController
             AssociationField::new('establishment'),
 
             // IntegerField::new('establishment', 'Etablissement'),
+            AssociationField::new('establishment', 'Etablissement'),
             IntegerField::new('likes')->setValue(0),
             DateTimeField::new('date', 'Date de la conférence'),
 

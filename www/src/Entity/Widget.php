@@ -34,6 +34,11 @@ class Widget
      */
     private $establishment;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $domain_allowed;
+
     public function __construct()
     {
         $this->establishment = new ArrayCollection();
@@ -88,6 +93,18 @@ class Widget
     public function removeEstablishment(Establishment $establishment): self
     {
         $this->establishment->removeElement($establishment);
+
+        return $this;
+    }
+
+    public function getDomainAllowed(): ?string
+    {
+        return $this->domain_allowed;
+    }
+
+    public function setDomainAllowed(?string $domain_allowed): self
+    {
+        $this->domain_allowed = $domain_allowed;
 
         return $this;
     }

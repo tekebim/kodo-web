@@ -21,14 +21,14 @@ class CategoryFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        // $faker->addProvider();
 
-        for ($count = 0; $count < 20; $count++) {
+        for ($nbCat = 1; $nbCat < 20; $nbCat++) {
             $category = new Category();
             $category->setName($faker->word());
             $category->setSlug(strtolower($this->slugger->slug($category->getName())));
             $manager->persist($category);
         }
+
         $manager->flush();
     }
 }

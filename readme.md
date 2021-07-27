@@ -63,6 +63,7 @@ symfony console doctrine:schema:update -f
 ```
 symfony console doctrine:migrations:diff
 symfony console doctrine:migrations:migrate
+symfony console doctrine:schema:update --force
 ```
 
 #### load fixtures

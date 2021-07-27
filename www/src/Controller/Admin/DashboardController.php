@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Conference;
 use App\Entity\Establishment;
 use App\Entity\User;
+use App\Entity\Widget;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -22,7 +23,15 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return parent::index();
+
+
+        $accounts = $this->getDoctrine()->getRepository(User::class)->count([]);
+
+        return $this->render('Admin/dashboard.html.twig', [
+            'accounts' => $accounts,
+        ]);
+
+        // return parent::index();
 
         // you can also render some template to display a proper Dashboard
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
@@ -49,6 +58,29 @@ class DashboardController extends AbstractDashboardController
         // you can also render some template to display a proper Dashboard
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         // return $this->render('some/path/my-dashboard.html.twig');
+    }
+
+    /**
+     * @Route("/admin/widgets", name="admin_widgets")
+     */
+    public function widgets(): Response
+    {
+        // $accounts = $this->getDoctrine()->getRepository(User::class)->count([]);
+
+        return $this->render('Admin/dashboard.html.twig', [
+            'accounts' => 'Mes widgets',
+        ]);
+
+        // return parent::index();
+
+        // you can also render some template to display a proper Dashboard
+        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
+        // return $this->render('some/path/my-dashboard.html.twig');
+
+        // $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
+        // $url = $routeBuilder->setController(ConferenceCrudController::class)->generateUrl();
+
+        // return $this->redirect($url);
     }
 
     /**
@@ -80,6 +112,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Conférences', 'fas fa-map-marker-alt', Conference::class)->setPermission('ROLE_ADMIN');
         yield MenuItem::section('Configuration');
         yield MenuItem::linkToCrud('Mes conférences', 'fas fa-map-marker-alt', Conference::class);
+        yield MenuItem::linktoDashboard('Mes widgets', 'fas fa-map-marker-alt', Widget::class);
 
         /*
         if ($this->isGranted('ROLE_EDITOR')) {
@@ -90,7 +123,7 @@ class DashboardController extends AbstractDashboardController
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
 
         yield MenuItem::linkToLogout('Déconnexion', 'fa fa-exit');
-        yield MenuItem::linkToRoute('Quitter', 'fa fa-home', 'home');
+        yield MenuItem::linkToRoute('Quitter', 'fa fa-home', 'home', ['' => '']);
         // yield MenuItem::linkToRoute('The Label', 'fa ...', 'route_name', ['routeParamName' => 'routeParamValue']);
 
     }

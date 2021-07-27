@@ -52,7 +52,6 @@ class Conference
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="conferences")
-     * @ORM\JoinTable(name="category")
      */
     private $category;
 
