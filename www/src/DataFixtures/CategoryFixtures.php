@@ -25,7 +25,7 @@ class CategoryFixtures extends Fixture
         for ($nbCat = 1; $nbCat < 20; $nbCat++) {
             $category = new Category();
             $category->setName($faker->word());
-            $category->setSlug(strtolower($this->slugger->slug($category->getName())));
+            // $category->setSlug(strtolower($this->slugger->slug($category->getName())));
             $manager->persist($category);
         }
 

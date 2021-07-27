@@ -437,6 +437,7 @@ class EstablishmentFixtures extends Fixture
                 $establishment->setIsApproved($faker->boolean(80));
 
                 $widget = new Widget();
+                $widget->addEstablishment($establishment);
                 $widget->setName('widget-' . $faker->slug(2));
                 $widget->setToken(md5(uniqid(rand(), true)));
                 $widget->setDomainAllowed($faker->domainName);
@@ -460,7 +461,10 @@ class EstablishmentFixtures extends Fixture
                     ->setExtract($faker->text)
                     ->setDescription($faker->text)
                     ->setEstablishment($establishment)
-                    ->setUrl($faker->url);
+                    ->setUrl($faker->url)
+                    ->setReplayUrl(null)
+                    ->setImageName(null)
+                    ->setVideoName(null);
 
                 $manager->persist($conference);
             }

@@ -6,6 +6,8 @@
     <div id="kodo-widget" class="widget">
         <div class="widget-inner">
             {{ establishment }}
+            {{ dump(establishment) }}
+            {# establishment.extract|u.truncate(50, '...', true) #}
         </div>
     </div>
 {% endblock %}

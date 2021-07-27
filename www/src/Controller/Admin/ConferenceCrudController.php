@@ -8,13 +8,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ConferenceCrudController extends AbstractCrudController
 {
@@ -34,22 +38,22 @@ class ConferenceCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-
             FormField::addPanel('Details'),
+            // TextField::new('imageFile')->setFormType(VichImageType::class),
+            ImageField::new('imageName')->setBasePath('/uploads/conferences/images/')->onlyOnIndex(),
+            TextareaField::new('imageFile')->setFormType(VichImageType::class)->hideOnIndex(),
             TextField::new('name')->setLabel('Nom de la conférence'),
+            SlugField::new('slug')->setTargetFieldName('name')->hideOnIndex(),
             TextField::new('location')->setLabel('Emplacement'),
             TextField::new('author')->setLabel('Auteur'),
             TextField::new('speakers')->setLabel('Intervenant(s)'),
-            AssociationField::new('establishment'),
-
-            // IntegerField::new('establishment', 'Etablissement'),
-            AssociationField::new('establishment', 'Etablissement'),
+            AssociationField::new('category', 'Catégorie'),
+            AssociationField::new('establishment', 'Etablissement')->setPermission('ROLE_ADMIN'),
             IntegerField::new('likes')->setValue(0),
             DateTimeField::new('date', 'Date de la conférence'),
-
             FormField::addPanel('Description'),
-            TextEditorField::new('extract'),
-            TextEditorField::new('description'),
+            TextEditorField::new('extract')->hideOnIndex(),
+            TextEditorField::new('description')->hideOnIndex(),
         ];
     }
 

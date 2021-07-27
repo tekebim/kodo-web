@@ -8,6 +8,10 @@ config/nginx/tests
 config/php/tests
 config/ssl/tests
 
+
+# Upload folder
+www/public/uploads/*
+!www/public/uploads/conferences/images/placeholder
 # Dotenv
 .env
 .env.*
