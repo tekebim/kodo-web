@@ -35,16 +35,23 @@ class WidgetRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    /*
-    public function findOneBySomeField($value): ?Widget
+    
+    public function findByEstablishment($id): ?array
     {
-        return $this->createQueryBuilder('w')
+        /*
+        $query = $this->createQueryBuilder('w')
             ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
+            ->setParameter('val', $id)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
+        */
+
+        $query = $this->createQueryBuilder('w')
+            ->innerJoin('w.establishment', 'e')
+            ->where('e.id = :establishment_id')
+            ->setParameter('establishment_id', $id)
+            ->getQuery()->getResult();
+
+        return $query;
     }
-    */
 }

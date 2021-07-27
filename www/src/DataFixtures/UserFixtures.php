@@ -37,7 +37,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             } else {
                 $user->setName($faker->name);
                 $user->setEmail($faker->email);
-                $user->setRoles(["ROLE_USER"]);
+                $user->setRoles(["ROLE_CONTRIBUTOR"]);
                 $user->setEstablishment($this->getReference('establishment_' . $faker->numberBetween(2, 3)));
                 $password = $this->encoder->encodePassword($user, 'user');
             }

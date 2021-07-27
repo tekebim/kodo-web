@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Conference;
 use App\Entity\Establishment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -50,14 +51,38 @@ class ConferenceRepository extends ServiceEntityRepository
     }
     */
 
-    public function findConferenceByEstablishment(Establishment $establishment): array
-    {
+    /*
 
+    public function findByEstablishment(Establishment $establishment): array
+    {
         return $this->getSearchQuery($establishment)
             ->orderBy('r.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
+
+    */
+
+    public function findByEstablishment(int $id): Query
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.establishment = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+    }
+
+
+    /*
+    public function findByEstablishment(int $id): ?array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
+            ->setParameter('val', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+    */
 
     public function getSearchQuery(Establishment $establishment): QueryBuilder
     {

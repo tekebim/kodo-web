@@ -23,8 +23,6 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-
-
         $accounts = $this->getDoctrine()->getRepository(User::class)->count([]);
 
         return $this->render('Admin/dashboard.html.twig', [
@@ -105,22 +103,34 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::section('Administration')->setPermission('ROLE_ADMIN');;
-        yield MenuItem::linkToCrud('Catégories', 'fas fa-map-marker-alt', Category::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-map-marker-alt', User::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Établissements', 'fas fa-map-marker-alt', Establishment::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::linkToCrud('Conférences', 'fas fa-map-marker-alt', Conference::class)->setPermission('ROLE_ADMIN');
-        yield MenuItem::section('Configuration');
-        yield MenuItem::linkToCrud('Mes conférences', 'fas fa-map-marker-alt', Conference::class);
-        yield MenuItem::linktoDashboard('Mes widgets', 'fas fa-map-marker-alt', Widget::class);
+        yield MenuItem::section('Administration')
+            ->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Catégories', 'fas fa-map-marker-alt', Category::class)
+            ->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-map-marker-alt', User::class)
+            ->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Établissements', 'fas fa-map-marker-alt', Establishment::class)
+            ->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Conférences', 'fas fa-map-marker-alt', Conference::class)
+            ->setPermission('ROLE_ADMIN');
+        yield MenuItem::section('Configuration')
+            ->setPermission('ROLE_CONTRIBUTOR');
+        yield MenuItem::linkToCrud('Mes conférences', 'fas fa-map-marker-alt', Conference::class)
+            ->setAction('showEstablishmentConferences')
+            ->setPermission('ROLE_CONTRIBUTOR');
+        yield MenuItem::linkToCrud('Mes widgets', 'fas fa-map-marker-alt', Widget::class)
+            ->setAction('showMyWidget')
+            ->setPermission('ROLE_CONTRIBUTOR');
 
         /*
         if ($this->isGranted('ROLE_EDITOR')) {
             yield MenuItem::linkToCrud('Blog Posts', null, BlogPost::class);
         }
         */
+
         // yield MenuItem::linkToCrud('Blog Posts', null, BlogPost::class)->setPermission('ROLE_USER');
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::section('Account');
 
         yield MenuItem::linkToLogout('Déconnexion', 'fa fa-exit');
         yield MenuItem::linkToRoute('Quitter', 'fa fa-home', 'home', ['' => '']);
