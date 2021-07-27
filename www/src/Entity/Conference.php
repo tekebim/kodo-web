@@ -52,6 +52,7 @@ class Conference
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="conferences")
+     * @ORM\JoinTable(name="category")
      */
     private $category;
 
@@ -145,12 +146,12 @@ class Conference
         return $this;
     }
 
-    public function getLikes(): ?bool
+    public function getLikes(): ?int
     {
         return $this->likes;
     }
 
-    public function setLikes(bool $likes): self
+    public function setLikes(int $likes): self
     {
         $this->likes = $likes;
 
