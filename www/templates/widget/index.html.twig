@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'widget/base.html.twig' %}
 
 {% block title %}Widget{% endblock %}
 
@@ -7,11 +7,51 @@
         <div class="widget-inner">
             {% if isValidToken %}
                 <h1>Token est valide</h1>
+                <div id="widget-wrapper">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom de la conférence</th>
+                            <th>Localisation</th>
+                            <th>Organisateur</th>
+                            <th>Intervenants</th>
+                            <th>Etablissement</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for conference in conferences %}
+                            <tr>
+                                <td>{{ conference.id }}</td>
+                                <td>{{ conference.name }}</td>
+                                <td>{{ conference.location }}</td>
+                                <td>{{ conference.author }}</td>
+                                <td>{{ conference.speakers }}</td>
+                                <td>{{ conference.establishment }}</td>
+                                <td></td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="4">Aucune conférence trouvée</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div id="overlay-error">Widget non autorisé</div>
             {% else %}
                 <h1>Token est invalide</h1>
             {% endif %}
-
             {# establishment.extract|u.truncate(50, '...', true) #}
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+      window.domainAllowed = '{{ widget.domainAllowed }}';
+    </script>
+
+    {{ parent() }}
 {% endblock %}

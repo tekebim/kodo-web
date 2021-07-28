@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Widget!{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('widget') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('widget') }}
+    {% endblock %}
+</head>
+<body>
+<h2>Base widget</h2>
+{% block body %}{% endblock %}
+</body>
+</html>

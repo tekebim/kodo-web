@@ -19,7 +19,7 @@ class ConferenceController extends AbstractController
     public function index(ConferenceRepository $conferenceRepository): Response
     {
 
-        $allConferences = $conferenceRepository->findAll();
+        $allConferences = $conferenceRepository->getAllApproved();
 
         /*
 

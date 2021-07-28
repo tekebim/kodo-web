@@ -1,0 +1,16 @@
+body {
+  background: white;
+}
+
+#overlay-error {
+  display: none;
+  background: blue;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.9;
+}

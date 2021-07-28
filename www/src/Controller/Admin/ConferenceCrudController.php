@@ -75,14 +75,20 @@ class ConferenceCrudController extends AbstractCrudController
      */
     public function createIndexQueryBuilder(SearchDto $searchDto, EntityDto $entityDto, FieldCollection $fields, FilterCollection $filters): QueryBuilder
     {
-        $user = $this->security->getUser();
-        $establishmentID = $user->getEstablishmentID();
-
         $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
-        $response->andWhere('entity.establishment = :establishment')
-            ->setParameter('establishment', $establishmentID)
-            ->getQuery()
-            ->execute();
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $response->getQuery()->execute();
+        } else {
+            $user = $this->security->getUser();
+            $establishmentID = $user->getEstablishmentID();
+
+            $response->andWhere('entity.establishment = :establishment')
+                ->setParameter('establishment', $establishmentID)
+                ->getQuery()
+                ->execute();
+        }
+
 
         return $response;
     }
@@ -95,18 +101,20 @@ class ConferenceCrudController extends AbstractCrudController
      */
     public function showEstablishmentConferences(ConferenceRepository $conferenceRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $user = $this->getUser();
-        $userEstablishmentID = $user->getEstablishmentID();
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $conferences = $conferenceRepository->findAll();
+        } else {
+            $user = $this->getUser();
+            $userEstablishmentID = $user->getEstablishmentID();
 
-        $conferencesSelected = $conferenceRepository->findBy(['establishment' => $userEstablishmentID]);
+            $conferencesSelected = $conferenceRepository->findBy(['establishment' => $userEstablishmentID]);
 
-        $conferences = $paginator->paginate(
-            $conferencesSelected,
-            $request->query->getInt('page', 1),
-            8
-        );
-        // $conferences = $conferenceRepository->findByEstablishment(548);
-
+            $conferences = $paginator->paginate(
+                $conferencesSelected,
+                $request->query->getInt('page', 1),
+                8
+            );
+        }
         return $this->render('Admin/conferences/list.html.twig', [
             'conferences' => $conferences,
         ]);

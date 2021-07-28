@@ -90,4 +90,11 @@ class ConferenceRepository extends ServiceEntityRepository
             ->andWhere('r.establishment = :id')
             ->setParameter('id', $establishment->getId());
     }
+
+    public function getAllApproved(): QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.isShared = :shared')
+            ->setParameter('shared', true);
+    }
 }

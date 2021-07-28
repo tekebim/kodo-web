@@ -35,7 +35,7 @@ class WidgetRepository extends ServiceEntityRepository
         ;
     }
     */
-    
+
     public function findByEstablishment($id): ?array
     {
         /*
