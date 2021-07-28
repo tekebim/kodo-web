@@ -29,8 +29,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         for ($nbAccount = 1; $nbAccount < 10; $nbAccount++) {
             $user = new User();
             if ($nbAccount === 1) {
-                $user->setName('dev');
-                $user->setEmail('dev@localhost.com');
+                $user->setName('KODO Administrateur');
+                $user->setEmail('dev@kodotalks.com');
                 $user->setRoles(["ROLE_ADMIN"]);
                 $user->setEstablishment($this->getReference('establishment_1'));
                 $password = $this->encoder->encodePassword($user, 'password');
@@ -38,7 +38,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
                 $user->setName($faker->name);
                 $user->setEmail($faker->email);
                 $user->setRoles(["ROLE_CONTRIBUTOR"]);
-                $user->setEstablishment($this->getReference('establishment_' . $faker->numberBetween(2, 30)));
+                $user->setEstablishment($this->getReference('establishment_' . $faker->numberBetween(2, 29)));
                 $password = $this->encoder->encodePassword($user, 'user');
             }
             // Add reference for the others fixtures

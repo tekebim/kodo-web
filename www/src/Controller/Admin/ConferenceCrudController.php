@@ -81,12 +81,17 @@ class ConferenceCrudController extends AbstractCrudController
         $response = $this->get(EntityRepository::class)->createQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
         if ($this->isGranted('ROLE_ADMIN')) {
-            $response->getQuery()->execute();
+            // $response->getQuery()->execute();
+
+            $response->where('entity.isBroadcasted = :broadcast')
+                ->setParameter('broadcast', true)
+                ->getQuery()
+                ->execute();
         } else {
             $user = $this->security->getUser();
             $establishmentID = $user->getEstablishmentID();
 
-            $response->andWhere('entity.establishment = :establishment')
+            $response->where('entity.establishment = :establishment')
                 ->setParameter('establishment', $establishmentID)
                 ->getQuery()
                 ->execute();

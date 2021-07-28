@@ -36,9 +36,15 @@ class Category
      */
     private $conferences;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Articles::class, mappedBy="category")
+     */
+    private $articles;
+
     public function __construct()
     {
         $this->conferences = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -93,5 +99,32 @@ class Category
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return Collection|Articles[]
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Articles $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Articles $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            $article->removeCategory($this);
+        }
+
+        return $this;
     }
 }

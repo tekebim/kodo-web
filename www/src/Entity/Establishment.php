@@ -49,6 +49,11 @@ class Establishment
      */
     private $widgets;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_premium;
+
     public function __construct()
     {
         $this->members = new ArrayCollection();
@@ -187,5 +192,17 @@ class Establishment
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getIsPremium(): ?bool
+    {
+        return $this->is_premium;
+    }
+
+    public function setIsPremium(bool $is_premium): self
+    {
+        $this->is_premium = $is_premium;
+
+        return $this;
     }
 }

@@ -4,7 +4,7 @@
 
 {% block body %}
     <div id="kodo-widget" class="widget">
-        <div class="widget-inner">
+        <div class="widget-inner {% if premium %}widget-pro{% endif %}">
             {% if isValidToken %}
                 <p class="btn-primary">Token est valide</p>
                 <div id="widget-wrapper">

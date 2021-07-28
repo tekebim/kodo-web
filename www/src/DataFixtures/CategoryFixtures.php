@@ -20,14 +20,39 @@ class CategoryFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+        $categories = [
+            1 => [
+                'name' => 'autre',
+            ],
+            2 => [
+                'name' => 'anthropologie',
+            ],
+            3 => [
+                'name' => 'histoire contemporaine',
+            ],
+            4 => [
+                'name' => 'physique / chimie',
+            ],
+            5 => [
+                'name' => 'astrophysique',
+            ],
+            6 => [
+                'name' => 'science sociale',
+            ],
+            7 => [
+                'name' => 'animaux',
+            ],
+            8 => [
+                'name' => 'économie',
+            ]
+        ];
 
-        for ($nbCat = 1; $nbCat < 20; $nbCat++) {
+        for ($nbCategory = 1; $nbCategory <= count($categories); $nbCategory++) {
             $category = new Category();
-            $category->setName($faker->word());
+            $category->setName($categories[$nbCategory]['name']);
+            $this->addReference('category_' . $nbCategory, $category);
             $manager->persist($category);
         }
-
         $manager->flush();
     }
 }

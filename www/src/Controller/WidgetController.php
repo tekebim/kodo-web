@@ -26,6 +26,7 @@ class WidgetController extends AbstractController
         $establishtmentCollection = $widget->getEstablishment();
         $establishtmentFirst = $establishtmentCollection->first();
         $establishtmentId = $establishtmentFirst->getId();
+        $isPremium = $establishtmentFirst->getIsPremium();
 
         $conferencesAll = $conferenceRepository->findByEstablishment($establishtmentId);
 
@@ -38,7 +39,8 @@ class WidgetController extends AbstractController
         return $this->render('widget/index.html.twig', [
             'isValidToken' => $isValidToken,
             'conferences' => $conferences,
-            'widget' => $widget
+            'widget' => $widget,
+            'premium' => $isPremium
         ]);
     }
 }

@@ -13,6 +13,7 @@ use Faker\Factory;
 class EstablishmentFixtures extends Fixture
 {
     const NB_ESTABLISHMENT = 30;
+    const DEMO_DOMAIN = 'demo.tekmedias.com';
 
     /*
 
@@ -425,22 +426,26 @@ class EstablishmentFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        for ($nbEstablishment = 1; $nbEstablishment < self::NB_ESTABLISHMENT; $nbEstablishment++) {
+        for ($nbEstablishment = 1; $nbEstablishment <= self::NB_ESTABLISHMENT; $nbEstablishment++) {
             $establishment = new Establishment();
             if ($nbEstablishment === 1) {
                 $establishment->setName('kodoteam');
                 $establishment->setWebsite('https://www.kodotalks.com');
                 $establishment->setIsApproved(true);
+                $establishment->setIsPremium(true);
             } else {
                 $establishment->setName($faker->company);
                 $establishment->setWebsite($faker->url);
                 $establishment->setIsApproved($faker->boolean(80));
+                $establishment->setIsPremium($faker->boolean(20));
 
                 $widget = new Widget();
                 $widget->addEstablishment($establishment);
                 $widget->setName('widget-' . $faker->slug(2));
                 $widget->setToken(md5(uniqid(rand(), true)));
-                $widget->setDomainAllowed($faker->domainName);
+                if ($nbEstablishment === 2 || $nbEstablishment === 3) {
+                    $widget->setDomainAllowed(self::DEMO_DOMAIN);
+                }
                 $manager->persist($widget);
             }
 
@@ -452,22 +457,24 @@ class EstablishmentFixtures extends Fixture
             // Create conference for this establishment
             for ($c = 0; $c < 10; $c++) {
                 $conference = new Conference();
-                $conference->setName($faker->company)
+                $conference
+                    ->setName($faker->company)
                     ->setLocation($faker->streetAddress)
                     ->setAuthor($faker->name)
                     ->setSpeakers($faker->name)
+                    ->setEstablishment($establishment)
                     ->setLikes(mt_rand(0, 100))
                     ->setDate($faker->dateTimeBetween('-10 days', '+90 days'))
                     ->setExtract($faker->text)
                     ->setDescription($faker->text)
-                    ->setEstablishment($establishment)
-                    ->setIsBroadcasted($faker->boolean(80))
                     ->setUrl($faker->url)
-                    ->addCategory()
+                    ->setIsBroadcasted($faker->boolean(80))
                     ->setReplayUrl(null)
                     ->setImageName(null)
                     ->setVideoName(null)
-                    ->setIsShared($faker->boolean(50));
+                    ->setIsShared($faker->boolean(50))
+                    ->setIsBroadcasted($faker->boolean(90))
+                    ->addCategory($this->getReference('category_' . $faker->numberBetween(1, 8)));
 
                 $manager->persist($conference);
             }
