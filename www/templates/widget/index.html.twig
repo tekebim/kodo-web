@@ -4,7 +4,7 @@
 
 {% block body %}
     <div id="kodo-widget" class="widget">
-        <div class="widget-inner {% if premium %}widget-pro{% endif %}">
+        <div class="widget-inner {% if premium %}widget-pro{% else %}widget-standard{% endif %}">
             {% if isValidToken %}
                 <p class="btn-primary">Token est valide</p>
                 <div id="widget-wrapper">
@@ -27,7 +27,16 @@
                                 <td>{{ conference.name }}</td>
                                 <td>{{ conference.location }}</td>
                                 <td>{{ conference.extract|u.truncate(100, '...', true) }}</td>
-                                <td>{{ conference.date|date('d-m-Y') }}</td>
+                                <td>
+                                    {% if date(conference.date) < date('today') %}
+                                        passé
+                                    {% else %}
+                                        à venir
+                                    {% endif %}
+                                    {{ conference.date|date('d-m-Y H:i') }}
+
+                                    {{ conference.date|ago(locale='fr') }}
+                                </td>
                                 <td>{{ conference.speakers }}</td>
                                 <td><a href="http://www.google.com" target="_blank">URL</a></td>
                             </tr>
@@ -39,14 +48,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div id="overlay-error">Widget non autorisé</div>
+                <div class="d-flex justify-content-center">
+                    {% do conferences.setPageRange(2) %}
+                    {{ knp_pagination_render(conferences, 'base/pagination.html.twig') }}
+                </div>
+                {% include 'widget/overlay-error-not-allowed.html.twig' %}
             {% else %}
-                <h1>Token est invalide</h1>
+                {% include 'widget/overlay-error-token.html.twig' %}
             {% endif %}
-            <div class="d-flex justify-content-center">
-                {% do conferences.setPageRange(2) %}
-                {{ knp_pagination_render(conferences, 'base/pagination.html.twig') }}
-            </div>
         </div>
     </div>
 {% endblock %}

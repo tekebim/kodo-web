@@ -33,16 +33,27 @@ class ConferenceCrudController extends AbstractCrudController
 
     private $security;
 
+    /**
+     * ConferenceCrudController constructor.
+     * @param Security $security
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
     }
 
+    /**
+     * @return string
+     */
     public static function getEntityFqcn(): string
     {
         return Conference::class;
     }
 
+    /**
+     * @param string $pageName
+     * @return iterable
+     */
     public function configureFields(string $pageName): iterable
     {
         yield FormField::addPanel('Details');
@@ -63,10 +74,25 @@ class ConferenceCrudController extends AbstractCrudController
         yield TextField::new('speakers')->setLabel('Intervenant(s)');
         yield AssociationField::new('category', 'Catégorie');
         yield AssociationField::new('establishment', 'Etablissement')->setPermission('ROLE_ADMIN');
-        yield IntegerField::new('likes')->setValue(0);
+        yield IntegerField::new('likes');
         yield FormField::addPanel('Description');
         yield TextEditorField::new('extract')->hideOnIndex();
         yield TextEditorField::new('description')->hideOnIndex();
+    }
+
+    /*
+     *
+     */
+    public function createEntity(string $entityFqcn)
+    {
+        $entity = new Conference();
+        if ($this->isGranted('ROLE_CONTRIBUTOR')) {
+            $userEstablishment = $this->security->getUser()->getEstablishment();
+            $estblishment = $userEstablishment->getName();
+            $entity->setAuthor($estblishment);
+        }
+        $entity->setLikes(0);
+        return $entity;
     }
 
     /**

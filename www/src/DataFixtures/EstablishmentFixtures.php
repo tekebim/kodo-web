@@ -15,6 +15,30 @@ class EstablishmentFixtures extends Fixture
     const NB_ESTABLISHMENT = 30;
     const DEMO_DOMAIN = 'demo.tekmedias.com';
 
+    const conferencesImages = [
+        'placeholder.png',
+        '515-600x600.jpeg',
+        '357-600x600.jpeg',
+        '454-600x600.jpeg',
+        '144-600x600.jpeg',
+        '157-600x600.jpeg',
+        '861-600x600.jpeg',
+        '401-600x600.jpeg',
+        '397-600x600.jpeg',
+        '704-600x600.jpeg',
+        '482-600x600.jpeg',
+        '916-600x600.jpeg',
+        '239-600x600.jpeg',
+        '418-600x600.jpeg',
+        '858-600x600.jpeg',
+        '553-600x600.jpeg',
+        '1051-600x600.jpeg',
+        '406-600x600.jpeg',
+        '177-600x600.jpeg',
+        '175-600x600.jpeg',
+        '176-600x600.jpeg',
+    ];
+
     /*
 
      const establishmentsList = array (
@@ -455,28 +479,30 @@ class EstablishmentFixtures extends Fixture
             $manager->persist($establishment);
 
             // Create conference for this establishment
-            for ($c = 0; $c < 10; $c++) {
-                $conference = new Conference();
-                $conference
-                    ->setName($faker->company)
-                    ->setLocation($faker->streetAddress)
-                    ->setAuthor($faker->name)
-                    ->setSpeakers($faker->name)
-                    ->setEstablishment($establishment)
-                    ->setLikes(mt_rand(0, 100))
-                    ->setDate($faker->dateTimeBetween('-10 days', '+90 days'))
-                    ->setExtract($faker->text)
-                    ->setDescription($faker->text)
-                    ->setUrl($faker->url)
-                    ->setIsBroadcasted($faker->boolean(80))
-                    ->setReplayUrl(null)
-                    ->setImageName(null)
-                    ->setVideoName(null)
-                    ->setIsShared($faker->boolean(50))
-                    ->setIsBroadcasted($faker->boolean(90))
-                    ->addCategory($this->getReference('category_' . $faker->numberBetween(1, 8)));
+            if ($nbEstablishment !== 1) {
+                for ($c = 1; $c < 11; $c++) {
+                    $conference = new Conference();
+                    $conference
+                        ->setName($faker->company)
+                        ->setLocation($faker->streetAddress)
+                        ->setAuthor($faker->name)
+                        ->setSpeakers($faker->name)
+                        ->setEstablishment($establishment)
+                        ->setLikes(mt_rand(0, 100))
+                        ->setDate($faker->dateTimeBetween('-10 days', '+90 days'))
+                        ->setExtract($faker->text)
+                        ->setDescription($faker->text)
+                        ->setUrl($faker->url)
+                        ->setIsBroadcasted($faker->boolean(80))
+                        ->setReplayUrl(null)
+                        ->setImageName(self::conferencesImages[$faker->numberBetween(1, 8)])
+                        ->setVideoName(null)
+                        ->setIsShared($faker->boolean(50))
+                        ->setIsBroadcasted($faker->boolean(90))
+                        ->addCategory($this->getReference('category_' . $faker->numberBetween(1, 8)));
 
-                $manager->persist($conference);
+                    $manager->persist($conference);
+                }
             }
         }
 

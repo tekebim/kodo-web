@@ -6,12 +6,20 @@ body {
 }
 
 .widget-pro {
-  border: 10px solid yellow;
 }
 
-#overlay-error {
+.widget-standard {
+
+}
+
+#overlay-not-allowed {
   display: none;
-  background: blue;
+}
+
+.overlay {
+  display: flex;
+  background: $primary-color;
+  color: $yellow-color;
   position: fixed;
   top: 0;
   left: 0;
