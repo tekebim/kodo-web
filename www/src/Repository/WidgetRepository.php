@@ -36,6 +36,17 @@ class WidgetRepository extends ServiceEntityRepository
     }
     */
 
+    public function findEstablishmentIdByWidgetId($id): ?array
+    {
+        $query = $this->createQueryBuilder('w')
+            ->where('w.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+
+        return $query;
+    }
+
     public function findByEstablishment($id): ?array
     {
         /*

@@ -21,13 +21,6 @@ class ConferenceController extends AbstractController
 
         $allConferences = $conferenceRepository->getAllApproved();
 
-        /*
-
-         $allConferences = $conferenceRepository->findBy([
-            // 'establishment_id' => 221
-        ]);
-        */
-
         $form = $this->createFormBuilder($conferenceRepository)->getForm();
 
         return $this->render('conference/index.html.twig', [

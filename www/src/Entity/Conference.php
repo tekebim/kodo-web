@@ -123,6 +123,11 @@ class Conference
      */
     private $isShared;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isBroadcasted;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
@@ -363,6 +368,18 @@ class Conference
     public function setIsShared(bool $isShared): self
     {
         $this->isShared = $isShared;
+
+        return $this;
+    }
+
+    public function getIsBroadcasted(): ?bool
+    {
+        return $this->isBroadcasted;
+    }
+
+    public function setIsBroadcasted(bool $isBroadcasted): self
+    {
+        $this->isBroadcasted = $isBroadcasted;
 
         return $this;
     }

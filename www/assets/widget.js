@@ -4,7 +4,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const domainAllowed = window.domainAllowed;
   const domainCurrent = document.referrer;
 
-  if (domainCurrent) {
+  if (domainCurrent && !domainCurrent.toString().includes('localhost')) {
     if ((domainAllowed !== '') && (!domainCurrent.toString().includes(domainAllowed))) {
       const overlayError = document.getElementById('overlay-error');
       const widgetEl = document.getElementById('widget-wrapper');

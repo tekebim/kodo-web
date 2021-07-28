@@ -38,51 +38,15 @@ class ConferenceRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    /*
-    public function findOneBySomeField($value): ?Conference
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
-    /*
-
-    public function findByEstablishment(Establishment $establishment): array
-    {
-        return $this->getSearchQuery($establishment)
-            ->orderBy('r.id', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
-
-    */
-
-    public function findByEstablishment(int $id): Query
+    public function findByEstablishment(int $id): array
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.establishment = :id')
             ->setParameter('id', $id)
-            ->getQuery();
-    }
-
-
-    /*
-    public function findByEstablishment(int $id): ?array
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $id)
+            ->orderBy('c.date', 'ASC')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 
     public function getSearchQuery(Establishment $establishment): QueryBuilder
     {

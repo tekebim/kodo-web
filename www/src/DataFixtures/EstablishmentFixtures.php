@@ -461,6 +461,7 @@ class EstablishmentFixtures extends Fixture
                     ->setExtract($faker->text)
                     ->setDescription($faker->text)
                     ->setEstablishment($establishment)
+                    ->setIsBroadcasted($faker->boolean(80))
                     ->setUrl($faker->url)
                     ->addCategory()
                     ->setReplayUrl(null)

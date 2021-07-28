@@ -18,24 +18,22 @@ class WidgetController extends AbstractController
     #[Route('/widget', name: 'widget')]
     public function index(Request $request, ConferenceRepository $conferenceRepository, WidgetRepository $widgetRepository, PaginatorInterface $paginator): Response
     {
-
         $tokenGetParam = $request->query->get('token');
         $widgetIdGetParam = $request->query->get('id');
         $widget = $widgetRepository->find($widgetIdGetParam);
         $isValidToken = ($tokenGetParam === $widget->getToken());
-        /*
-        $establishment = $widget->getEstablishment();
 
+        $establishtmentCollection = $widget->getEstablishment();
+        $establishtmentFirst = $establishtmentCollection->first();
+        $establishtmentId = $establishtmentFirst->getId();
 
-        $conferencesSelected = $conferenceRepository->findBy(['establishment' => $establishment]);
+        $conferencesAll = $conferenceRepository->findByEstablishment($establishtmentId);
 
         $conferences = $paginator->paginate(
-            $conferencesSelected,
+            $conferencesAll,
             $request->query->getInt('page', 1),
             8
         );
-        */
-        $conferences = $conferenceRepository->findByEstablishment(635);
 
         return $this->render('widget/index.html.twig', [
             'isValidToken' => $isValidToken,

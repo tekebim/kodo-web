@@ -1,35 +1,31 @@
 {% extends 'widget/base.html.twig' %}
 
-{% block title %}Widget{% endblock %}
+{% block title %}Widget KODO{% endblock %}
 
 {% block body %}
     <div id="kodo-widget" class="widget">
         <div class="widget-inner">
             {% if isValidToken %}
-                <h1>Token est valide</h1>
+                <p class="btn-primary">Token est valide</p>
                 <div id="widget-wrapper">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>Id</th>
                             <th>Nom de la conférence</th>
                             <th>Localisation</th>
-                            <th>Organisateur</th>
+                            <th>Extract</th>
+                            <th>Date</th>
                             <th>Intervenants</th>
-                            <th>Etablissement</th>
-                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for conference in conferences %}
                             <tr>
-                                <td>{{ conference.id }}</td>
                                 <td>{{ conference.name }}</td>
                                 <td>{{ conference.location }}</td>
-                                <td>{{ conference.author }}</td>
+                                <td>{{ conference.extract|u.truncate(100, '...', true) }}</td>
+                                <td>{{ conference.date|date('d-m-Y') }}</td>
                                 <td>{{ conference.speakers }}</td>
-                                <td>{{ conference.establishment }}</td>
-                                <td></td>
                             </tr>
                         {% else %}
                             <tr>
@@ -43,7 +39,10 @@
             {% else %}
                 <h1>Token est invalide</h1>
             {% endif %}
-            {# establishment.extract|u.truncate(50, '...', true) #}
+            <div class="d-flex justify-content-center">
+                {% do conferences.setPageRange(2) %}
+                {{ knp_pagination_render(conferences, 'base/pagination.html.twig') }}
+            </div>
         </div>
     </div>
 {% endblock %}
@@ -52,6 +51,5 @@
     <script type="text/javascript">
       window.domainAllowed = '{{ widget.domainAllowed }}';
     </script>
-
     {{ parent() }}
 {% endblock %}
