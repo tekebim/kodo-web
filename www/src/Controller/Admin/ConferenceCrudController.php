@@ -45,25 +45,28 @@ class ConferenceCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        return [
-            FormField::addPanel('Details'),
-            // TextField::new('imageFile')->setFormType(VichImageType::class),
-            ImageField::new('imageName')->setBasePath('/uploads/conferences/images/')->onlyOnIndex(),
-            TextareaField::new('imageFile')->setFormType(VichImageType::class)->hideOnIndex(),
-            BooleanField::new('isShared')->setLabel('Visible'),
-            TextField::new('name')->setLabel('Nom de la conférence'),
-            SlugField::new('slug')->setTargetFieldName('name')->hideOnIndex(),
-            DateTimeField::new('date', 'Date de la conférence'),
-            TextField::new('location')->setLabel('Emplacement'),
-            TextField::new('author')->setLabel('Auteur')->hideOnIndex(),
-            TextField::new('speakers')->setLabel('Intervenant(s)'),
-            AssociationField::new('category', 'Catégorie'),
-            AssociationField::new('establishment', 'Etablissement')->setPermission('ROLE_ADMIN'),
-            IntegerField::new('likes')->setValue(0),
-            FormField::addPanel('Description'),
-            TextEditorField::new('extract')->hideOnIndex(),
-            TextEditorField::new('description')->hideOnIndex(),
-        ];
+        yield FormField::addPanel('Details');
+        // TextField::new('imageFile')->setFormType(VichImageType::class),
+        yield ImageField::new('imageName')->setBasePath('/uploads/conferences/images/')->onlyOnIndex();
+        yield TextareaField::new('imageFile')->setFormType(VichImageType::class)->hideOnIndex();
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield BooleanField::new('isShared')->setLabel('Visible');
+        }
+        if ($this->isGranted('ROLE_CONTRIBUTOR')) {
+            yield BooleanField::new('isBroadcasted')->setLabel('Diffusion');
+        }
+        yield TextField::new('name')->setLabel('Nom de la conférence');
+        yield SlugField::new('slug')->setTargetFieldName('name')->hideOnIndex();
+        yield DateTimeField::new('date', 'Date de la conférence');
+        yield TextField::new('location')->setLabel('Emplacement');
+        yield TextField::new('author')->setLabel('Auteur')->hideOnIndex();
+        yield TextField::new('speakers')->setLabel('Intervenant(s)');
+        yield AssociationField::new('category', 'Catégorie');
+        yield AssociationField::new('establishment', 'Etablissement')->setPermission('ROLE_ADMIN');
+        yield IntegerField::new('likes')->setValue(0);
+        yield FormField::addPanel('Description');
+        yield TextEditorField::new('extract')->hideOnIndex();
+        yield TextEditorField::new('description')->hideOnIndex();
     }
 
     /**

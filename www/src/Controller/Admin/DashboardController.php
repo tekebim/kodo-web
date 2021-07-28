@@ -2,16 +2,16 @@
 
 namespace App\Controller\Admin;
 
-use App\Controller\HomeController;
+use App\Entity\Articles;
 use App\Entity\Category;
 use App\Entity\Conference;
 use App\Entity\Establishment;
+use App\Entity\Podcast;
 use App\Entity\User;
 use App\Entity\Widget;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
-use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,17 +29,6 @@ class DashboardController extends AbstractDashboardController
         return $this->render('Admin/dashboard.html.twig', [
             'accounts' => $accounts,
         ]);
-
-        // return parent::index();
-
-        // you can also render some template to display a proper Dashboard
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        // return $this->render('some/path/my-dashboard.html.twig');
-
-        // $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
-        // $url = $routeBuilder->setController(ConferenceCrudController::class)->generateUrl();
-
-        // return $this->redirect($url);
     }
 
     /**
@@ -47,16 +36,10 @@ class DashboardController extends AbstractDashboardController
      */
     public function conference(): Response
     {
-        // return parent::index();
-
         $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
         $url = $routeBuilder->setController(ConferenceCrudController::class)->generateUrl();
 
         return $this->redirect($url);
-
-        // you can also render some template to display a proper Dashboard
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        // return $this->render('some/path/my-dashboard.html.twig');
     }
 
     /**
@@ -64,22 +47,9 @@ class DashboardController extends AbstractDashboardController
      */
     public function widgets(): Response
     {
-        // $accounts = $this->getDoctrine()->getRepository(User::class)->count([]);
-
         return $this->render('Admin/dashboard.html.twig', [
             'accounts' => 'Mes widgets',
         ]);
-
-        // return parent::index();
-
-        // you can also render some template to display a proper Dashboard
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        // return $this->render('some/path/my-dashboard.html.twig');
-
-        // $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
-        // $url = $routeBuilder->setController(ConferenceCrudController::class)->generateUrl();
-
-        // return $this->redirect($url);
     }
 
     /**
@@ -93,6 +63,9 @@ class DashboardController extends AbstractDashboardController
         return $this->redirect($url);
     }
 
+    /**
+     * @return Dashboard
+     */
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
@@ -101,16 +74,21 @@ class DashboardController extends AbstractDashboardController
             ->setTranslationDomain('fr');
     }
 
+    /**
+     * @return iterable
+     */
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
 
         if ($this->isGranted('ROLE_ADMIN')) {
             yield MenuItem::section('Administration');
-            yield MenuItem::linkToCrud('Catégories', 'fas fa-map-marker-alt', Category::class);
-            yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-map-marker-alt', User::class);
-            yield MenuItem::linkToCrud('Établissements', 'fas fa-map-marker-alt', Establishment::class);
-            yield MenuItem::linkToCrud('Conférences', 'fas fa-map-marker-alt', Conference::class);
+            yield MenuItem::linkToCrud('Articles', 'fas fa-book', Articles::class);
+            yield MenuItem::linkToCrud('Podcasts', 'fas fa-microphone-alt', Podcast::class);
+            yield MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class);
+            yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
+            yield MenuItem::linkToCrud('Établissements', 'fas fa-city', Establishment::class);
+            yield MenuItem::linkToCrud('Conférences', 'fas fa-copyright', Conference::class);
         }
 
         if ($this->isGranted('ROLE_CONTRIBUTOR')) {

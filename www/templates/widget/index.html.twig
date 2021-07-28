@@ -11,21 +11,25 @@
                     <table class="table">
                         <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Nom de la conférence</th>
                             <th>Localisation</th>
                             <th>Extract</th>
                             <th>Date</th>
                             <th>Intervenants</th>
+                            <th>URL</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for conference in conferences %}
                             <tr>
+                                <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt=""></td>
                                 <td>{{ conference.name }}</td>
                                 <td>{{ conference.location }}</td>
                                 <td>{{ conference.extract|u.truncate(100, '...', true) }}</td>
                                 <td>{{ conference.date|date('d-m-Y') }}</td>
                                 <td>{{ conference.speakers }}</td>
+                                <td><a href="http://www.google.com" target="_blank">URL</a></td>
                             </tr>
                         {% else %}
                             <tr>
@@ -48,6 +52,24 @@
 {% endblock %}
 
 {% block javascripts %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NJK87Y9D5B"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+
+      gtag('js', new Date());
+      gtag('config', 'G-NJK87Y9D5B', {
+        'cookie_prefix': 'none'
+      });
+
+      gtag('event', 'widget', {
+        'method': 'Iframe',
+        'value': {{ widget }}
+      });
+    </script>
     <script type="text/javascript">
       window.domainAllowed = '{{ widget.domainAllowed }}';
     </script>
