@@ -7,6 +7,8 @@ use App\Repository\ConferenceRepository;
 use Doctrine\ORM\QueryBuilder;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
@@ -40,6 +42,17 @@ class ConferenceCrudController extends AbstractCrudController
     public function __construct(Security $security)
     {
         $this->security = $security;
+    }
+
+    /**
+     * @param Actions $actions
+     * @return Actions
+     */
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER);
     }
 
     /**
@@ -80,8 +93,9 @@ class ConferenceCrudController extends AbstractCrudController
         yield TextEditorField::new('description')->hideOnIndex();
     }
 
-    /*
-     *
+    /**
+     * @param string $entityFqcn
+     * @return Conference
      */
     public function createEntity(string $entityFqcn)
     {

@@ -6,6 +6,7 @@ use App\Repository\WidgetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=WidgetRepository::class)
@@ -39,9 +40,23 @@ class Widget
      */
     private $domain_allowed;
 
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated_at;
+
     public function __construct()
     {
         $this->establishment = new ArrayCollection();
+        $this->created_at = new \DateTime();
+        $this->updated_at = new \DateTime();
     }
 
     public function getId(): ?int
@@ -71,6 +86,11 @@ class Widget
         $this->token = $token;
 
         return $this;
+    }
+
+    public function generateToken(): string
+    {
+        return md5(uniqid(rand(), true));
     }
 
     /**
@@ -112,5 +132,29 @@ class Widget
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTime $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTime
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTime $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
     }
 }

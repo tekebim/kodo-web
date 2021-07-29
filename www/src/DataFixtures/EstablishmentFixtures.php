@@ -466,9 +466,12 @@ class EstablishmentFixtures extends Fixture
                 $widget = new Widget();
                 $widget->addEstablishment($establishment);
                 $widget->setName('widget-' . $faker->slug(2));
-                $widget->setToken(md5(uniqid(rand(), true)));
+                $widget->setToken($widget->generateToken());
                 if ($nbEstablishment === 2 || $nbEstablishment === 3) {
                     $widget->setDomainAllowed(self::DEMO_DOMAIN);
+                }
+                else {
+                    $widget->setDomainAllowed($faker->domainName);
                 }
                 $manager->persist($widget);
             }

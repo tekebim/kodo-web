@@ -21,6 +21,7 @@ body {
   background: $primary-color;
   color: $yellow-color;
   position: fixed;
+  flex-direction: column;
   top: 0;
   left: 0;
   height: 100%;

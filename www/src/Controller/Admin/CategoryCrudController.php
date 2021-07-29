@@ -13,6 +13,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class CategoryCrudController extends AbstractCrudController
 {
+    /**
+     * @param Actions $actions
+     * @return Actions
+     */
     public function configureActions(Actions $actions): Actions
     {
         return $actions

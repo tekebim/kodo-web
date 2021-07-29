@@ -2,18 +2,50 @@
 
 {% block main %}
     <div class="container">
-        <h1>Liste des widgets :</h1>
+        <h1>Mes widgets :</h1>
 
-        {% for widget in widgets %}
-            <h3>Widget name :</h3>
-            <p>{{ widget.name }}</p>
-            <h3>Widget token</h3>
-            <p>{{ widget.token }}</p>
-            <h3>Widget code</h3>
-            <textarea class="full">
-               <iframe src="http://localhost:8080/widget?id={{ widget.id }}&token={{ widget.token }}" width="100%" frameborder="0" height="500"/>
-            </textarea>
-        {% endfor %}
-        <hr>
+        <table class="table table-striped">
+
+            <thead>
+            <th>Nom du widget</th>
+            <th>Numéro de widget</th>
+            <th>Token sécurité</th>
+            <th>Date d'ajout</th>
+            <th></th>
+            </thead>
+
+            {% for widget in widgets %}
+                <tr>
+                    <td>
+                        <p>{{ widget.name }}</p>
+                    </td>
+                    <td>
+                        <p>{{ loop.index }} {% if not premium %}/ 3{% endif %}</p>
+                    </td>
+                    <td>
+                        <p>{{ widget.token }}</p>
+                    </td>
+                    <td>
+                        <h3>Widget code</h3>
+                        <textarea class="full">
+                    <iframe src="http://localhost:8080/widget?id={{ widget.id }}&token={{ widget.token }}" width="100%" frameborder="0" height="500"/>
+                    </textarea>
+                        <h3>Domaine</h3>
+                        <p>{{ widget.domainAllowed }}</p>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-6-desktop">
+                    <a href="{{ url_new_widget }}" class="btn btn-primary">Créer un widget</a>
+                </div>
+                <div class="column is-6-desktop">
+                    <a href="{{ url_new_widget }}" class="btn btn-primary">Ajouter un domaine</a>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
