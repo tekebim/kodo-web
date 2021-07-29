@@ -2,7 +2,7 @@
 
 {% block main %}
     <div class="container">
-        <h1>Mes widgets :</h1>
+        <h1>Mes widgets ({{ widgets|length }})</h1>
 
         <table class="table table-striped">
 
@@ -11,7 +11,7 @@
             <th>Numéro de widget</th>
             <th>Token sécurité</th>
             <th>Date d'ajout</th>
-            <th></th>
+            <th>Actions</th>
             </thead>
 
             {% for widget in widgets %}
@@ -26,12 +26,14 @@
                         <p>{{ widget.token }}</p>
                     </td>
                     <td>
-                        <h3>Widget code</h3>
-                        <textarea class="full">
+                        <p>{{ widget.domainAllowed }}</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <textarea class="full w-100">
                     <iframe src="http://localhost:8080/widget?id={{ widget.id }}&token={{ widget.token }}" width="100%" frameborder="0" height="500"/>
                     </textarea>
-                        <h3>Domaine</h3>
-                        <p>{{ widget.domainAllowed }}</p>
                     </td>
                 </tr>
             {% endfor %}

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Widget;
+use App\Repository\EstablishmentRepository;
 use App\Repository\WidgetRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
@@ -44,10 +45,13 @@ class WidgetCrudController extends AbstractCrudController
      * @param WidgetRepository $widgetRepository
      * @return Response
      */
-    public function showMyWidget(WidgetRepository $widgetRepository): Response
+    public function showMyWidget(WidgetRepository $widgetRepository, EstablishmentRepository $establishmentRepository): Response
     {
         $user = $this->getUser();
         $userEstablishmentID = $user->getEstablishmentID();
+
+        $establishment = $establishmentRepository->findBy(['id' => $userEstablishmentID]);
+        $isPremium = $establishment->getIsPremium();
 
         $widgetsFiltered = $widgetRepository->findByEstablishment($userEstablishmentID);
 
@@ -61,7 +65,7 @@ class WidgetCrudController extends AbstractCrudController
             'establishment_id' => $userEstablishmentID,
             'widgets' => $widgetsFiltered,
             'url_new_widget' => $urlNewWidget,
-            'premium' => false
+            'premium' => $isPremium
         ]);
     }
 }

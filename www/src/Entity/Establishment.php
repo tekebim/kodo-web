@@ -52,7 +52,7 @@ class Establishment
     /**
      * @ORM\Column(type="boolean")
      */
-    private $is_premium;
+    private $isPremium;
 
     public function __construct()
     {
@@ -196,12 +196,12 @@ class Establishment
 
     public function getIsPremium(): ?bool
     {
-        return $this->is_premium;
+        return $this->isPremium;
     }
 
-    public function setIsPremium(bool $is_premium): self
+    public function setIsPremium(bool $isPremium): self
     {
-        $this->is_premium = $is_premium;
+        $this->isPremium = $isPremium;
 
         return $this;
     }
