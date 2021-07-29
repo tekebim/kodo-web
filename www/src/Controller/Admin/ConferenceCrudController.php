@@ -13,6 +13,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
@@ -85,7 +86,11 @@ class ConferenceCrudController extends AbstractCrudController
         yield TextField::new('location')->setLabel('Emplacement');
         yield TextField::new('author')->setLabel('Auteur')->hideOnIndex();
         yield TextField::new('speakers')->setLabel('Intervenant(s)');
-        yield AssociationField::new('category', 'Catégorie');
+        if (Crud::PAGE_DETAIL === $pageName || Crud::PAGE_INDEX === $pageName) {
+            yield ArrayField::new('category')->setLabel('Catégorie');
+        } else {
+            yield AssociationField::new('category', 'Catégorie');
+        }
         yield AssociationField::new('establishment', 'Etablissement')->setPermission('ROLE_ADMIN');
         yield IntegerField::new('likes');
         yield FormField::addPanel('Description');
