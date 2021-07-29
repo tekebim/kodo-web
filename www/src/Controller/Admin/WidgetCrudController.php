@@ -7,6 +7,7 @@ use App\Repository\EstablishmentRepository;
 use App\Repository\WidgetRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,10 +34,10 @@ class WidgetCrudController extends AbstractCrudController
         return $entity;
     }
 
-
     public function configureFields(string $pageName): iterable
     {
         yield TextField::new('name');
+        yield DateTimeField::new('updatedAt', 'Dernière mise à jour')->setSortable(true)->hideOnForm()->hideOnDetail();
         yield TextField::new('token')->setFormTypeOption('disabled', 'disabled');
         yield TextField::new('domainAllowed');
     }
@@ -50,8 +51,7 @@ class WidgetCrudController extends AbstractCrudController
         $user = $this->getUser();
         $userEstablishmentID = $user->getEstablishmentID();
 
-        $establishment = $establishmentRepository->findBy(['id' => $userEstablishmentID]);
-        $isPremium = $establishment->getIsPremium();
+        $isPremium = $establishmentRepository->find($userEstablishmentID)->getIsPremium();
 
         $widgetsFiltered = $widgetRepository->findByEstablishment($userEstablishmentID);
 
@@ -65,7 +65,7 @@ class WidgetCrudController extends AbstractCrudController
             'establishment_id' => $userEstablishmentID,
             'widgets' => $widgetsFiltered,
             'url_new_widget' => $urlNewWidget,
-            'premium' => $isPremium
+            'is_premium' => $isPremium
         ]);
     }
 }

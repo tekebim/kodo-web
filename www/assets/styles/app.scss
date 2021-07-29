@@ -1,5 +1,7 @@
 @import "custom";
 @import "~bootstrap/scss/bootstrap";
+@import "~@fortawesome/fontawesome-free/css/all.css";
+@import "~@fortawesome/fontawesome-free/css/v4-shims.css";
 
 body {
   background-color: $primary-color;
@@ -9,16 +11,38 @@ body {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  justify-content: center;
+  padding: 40px;
+  background: linear-gradient($primary-color-light, $primary-color);
 }
 
 .form-signin {
   background-color: $white-color;
   width: 100%;
-  max-width: 330px;
-  padding: 15px;
+  max-width: 500px;
+  padding: 2rem 2rem;
   margin: auto;
+  border-radius: 2rem;
+  @include media-breakpoint-up(md) {
+    padding: 2rem 8rem;
+  }
+
+  .form-header {
+    text-align: center;
+  }
+
+  .form-cta {
+    font-size: 1em;
+  }
+
+  .password-forgot {
+    font-size: 12px;
+    margin-bottom: 2rem;
+
+    a {
+      color: $purple-color-light;
+    }
+  }
 }
 
 .form-signin .checkbox {

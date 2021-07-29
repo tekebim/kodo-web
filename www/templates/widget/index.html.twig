@@ -3,57 +3,124 @@
 {% block title %}Widget KODO{% endblock %}
 
 {% block body %}
-    <div id="kodo-widget" class="widget">
+    <div id="kodo-widget" class="widget widget-{{ widgetStyle }}">
         <div class="widget-inner {% if premium %}widget-pro{% else %}widget-standard{% endif %}">
+            <div class="widget-topbar">
+                <img src="{{ asset('images/logo-kodo-yellow.svg') }}" alt="logo-kodo">
+            </div>
             {% if isValidToken %}
-                <p class="btn-primary">Token est valide</p>
-                <div id="widget-wrapper">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Nom de la conférence</th>
-                            <th>Localisation</th>
-                            <th>Extract</th>
-                            <th>Date</th>
-                            <th>Intervenants</th>
-                            <th>URL</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for conference in conferences %}
-                            <tr>
-                                <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt="" width="140">
-                                </td>
-                                <td>{{ conference.name }}</td>
-                                <td>{{ conference.location }}</td>
-                                <td>{{ conference.extract|u.truncate(100, '...', true) }}</td>
-                                <td>
-                                    {% if date(conference.date) < date('today') %}
-                                        passé
-                                    {% else %}
-                                        à venir
-                                    {% endif %}
-                                    {{ conference.date|date('d-m-Y H:i') }}
-
-                                    {{ conference.date|ago(locale='fr') }}
-                                </td>
-                                <td>{{ conference.speakers }}</td>
-                                <td><a href="{{ conference.url }}" target="_blank">URL</a></td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="4">Aucune conférence trouvée</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="d-flex justify-content-center">
-                    {% do conferences.setPageRange(2) %}
-                    {{ knp_pagination_render(conferences, 'base/pagination.html.twig') }}
-                </div>
                 {% include 'widget/overlay-error-not-allowed.html.twig' %}
+                <div id="widget-wrapper">
+                    <div class="widget-tabs">
+                        <div class="row">
+                            <h1>Conférences à venir</h1>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Nom de la conférence</th>
+                                    <th>Localisation</th>
+                                    <th>Extract</th>
+                                    <th>Date</th>
+                                    <th>Intervenants</th>
+                                    <th>URL</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for conference in conferencesPast %}
+                                    <tr>
+                                        <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt="" width="140">
+                                        </td>
+                                        <td>{{ conference.name }}</td>
+                                        <td>{{ conference.location }}</td>
+                                        <td>
+                                            {% for category in conference.category %}
+                                                {{ category }}
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ conference.extract|u.truncate(100, '...', true) }}</td>
+                                        <td>
+                                            <span class="badge bg-danger">Terminé</span>
+                                        </td>
+                                        <td>{{ conference.speakers }}</td>
+                                        <td><a href="#"
+                                               onclick="dataLayer.push({'event': 'category-click', 'category': '{% for category in conference.category %}{{ category }}{% endfor %}'});"
+                                            >Click test event</a>
+                                            <a href="{{ conference.url }}"
+                                               onclick="dataLayer.push({'event': 'category-click', 'category': '{% for category in conference.category %}{{ category }}{% endfor %}'});"
+                                               target="_blank">URL</a></td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Aucune conférence trouvée</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-center">
+                                {% do conferencesPast.setPageRange(2) %}
+                                {{ knp_pagination_render(conferencesPast, 'base/pagination.html.twig') }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h1>Conférences passées</h1>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Nom de la conférence</th>
+                                    <th>Localisation</th>
+                                    <th>Extract</th>
+                                    <th>Date</th>
+                                    <th>Intervenants</th>
+                                    <th>URL</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for conference in conferencesNext %}
+                                    <tr>
+                                        <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt="" width="140">
+                                        </td>
+                                        <td>{{ conference.name }}</td>
+                                        <td>{{ conference.location }}</td>
+                                        <td>
+                                            {% for category in conference.category %}
+                                                {{ category }}
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ conference.extract|u.truncate(100, '...', true) }}</td>
+                                        <td>
+                                            {% if date(conference.date) < date('today') %}
+                                                passé
+                                            {% else %}
+                                                à venir
+                                            {% endif %}
+                                            {{ conference.date|date('d-m-Y H:i') }}
+
+                                            {{ conference.date|ago(locale='fr') }}
+                                        </td>
+                                        <td>{{ conference.speakers }}</td>
+                                        <td><a href="#"
+                                               onclick="dataLayer.push({'event': 'category-click', 'category': '{% for category in conference.category %}{{ category }}{% endfor %}'});"
+                                            >Click test event</a>
+                                            <a href="{{ conference.url }}"
+                                               onclick="dataLayer.push({'event': 'category-click', 'category': '{% for category in conference.category %}{{ category }}{% endfor %}'});"
+                                               target="_blank">URL</a></td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Aucune conférence trouvée</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-center">
+                                {% do conferencesNext.setPageRange(2) %}
+                                {{ knp_pagination_render(conferencesNext, 'base/pagination.html.twig') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% else %}
                 {% include 'widget/overlay-error-token.html.twig' %}
             {% endif %}
@@ -71,11 +138,14 @@
       }
 
       gtag('js', new Date());
+      gtag('set', 'allow_google_signals', false);
       gtag('config', 'G-NJK87Y9D5B', {
-        'cookie_prefix': 'none'
+        client_storage: 'none',
+        anonymize_ip: true
       });
 
       gtag('event', 'widget', {
+        'name': 'widget',
         'method': 'Iframe',
         'value': 'widget-{{ widget.id }}'
       });

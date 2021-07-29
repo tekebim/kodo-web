@@ -5,10 +5,6 @@
 {% block body %}
     <main class="page-signin">
         <form method="post" class="form-signin">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
-
             {% if app.user %}
             <div class="mb-3">
                 Vous êtes identifié en tant que : {{ app.user.username }}, <a href="{{ path('app_logout') }}">Se
@@ -16,7 +12,14 @@
             </div>
             {% else %}
             <div class="form-inner">
-                <img src="{{ asset('images/logo-kodo-blue.svg') }}" alt="logo-kodo"/>
+                <div class="form-header">
+                    <img src="{{ asset('images/logo-kodo-blue.svg') }}" alt="logo-kodo" width="235"/>
+                </div>
+
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
                 <div class="form-floating">
                     <input type="email" value="{{ last_username }}" name="email" id="inputEmail"
                            class="form-control"
@@ -27,6 +30,9 @@
                     <input type="password" name="password" id="inputPassword" class="form-control"
                            autocomplete="current-password" required placeholder="Mot de passe">
                     <label for="floatingPassword">Mot de passe</label>
+                    <div class="password-forgot">
+                        <a href="#" class="text-decoration-underline">Mot de passe oublié ?</a>
+                    </div>
                 </div>
 
                 <input type="hidden" name="_csrf_token"
@@ -44,13 +50,14 @@
                 </div>
                 #}
 
-                <button class="w-100 btn btn-lg btn-primary" type="submit">Se connecter</button>
+                <button class="w-100 btn btn-lg btn-primary form-cta" type="submit">Se connecter</button>
 
                 <hr>
 
                 <div class="text-center">
                     <p>Pas de compte ?</p>
-                    <a href="" class="btn btn-outline-primary">Contactez-nous</a>
+                    <a href="mailto:contact@kodotalks.com" class="btn btn-outline-primary"><i
+                                class="far fa-envelope"></i> Contactez-nous</a>
                 </div>
             </div>
         </form>

@@ -25,16 +25,20 @@ class DashboardController extends AbstractDashboardController
     public function index(): Response
     {
         $accounts = $this->getDoctrine()->getRepository(User::class)->count([]);
-
-        return $this->render('Admin/dashboard.html.twig', [
-            'accounts' => $accounts,
-        ]);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->render('Admin/dashboard.html.twig', [
+                'accounts' => $accounts,
+            ]);
+        } else {
+            return $this->redirectToRoute('admin_conferences');
+            // return $this->conferences();
+        }
     }
 
     /**
-     * @Route("/admin/conference", name="admin_conference")
+     * @Route("/admin/conferences", name="admin_conferences")
      */
-    public function conference(): Response
+    public function conferences(): Response
     {
         $routeBuilder = $this->get(CrudUrlGenerator::class)->build();
         $url = $routeBuilder->setController(ConferenceCrudController::class)->generateUrl();
@@ -79,9 +83,8 @@ class DashboardController extends AbstractDashboardController
      */
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
-
         if ($this->isGranted('ROLE_ADMIN')) {
+            yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
             yield MenuItem::section('Administration');
             yield MenuItem::linkToCrud('Articles', 'fas fa-book', Articles::class);
             yield MenuItem::linkToCrud('Podcasts', 'fas fa-microphone-alt', Podcast::class);
@@ -104,8 +107,31 @@ class DashboardController extends AbstractDashboardController
 
     }
 
-    public function configureAssets(): Assets
+    /*
+    public function configureAssets(Assets $assets): Assets
     {
-        return Assets::new()->addCssFile('bundles/easyadmin/app.css');
+        return $assets
+            // adds the CSS and JS assets associated to the given Webpack Encore entry
+            // it's equivalent to adding these inside the <head> element:
+            // {{ encore_entry_link_tags('...') }} and {{ encore_entry_script_tags('...') }}
+            ->addWebpackEncoreEntry('admin-app')
+
+            // it's equivalent to adding this inside the <head> element:
+            // <link rel="stylesheet" href="{{ asset('...') }}">
+            ->addCssFile('build/admin.css')
+            ->addCssFile('https://example.org/css/admin2.css')
+
+            // it's equivalent to adding this inside the <head> element:
+            // <script src="{{ asset('...'') }}"></script>
+            ->addJsFile('build/admin.js')
+            ->addJsFile('https://example.org/js/admin2.js')
+
+            // use these generic methods to add any code before </head> or </body>
+            // the contents are included "as is" in the rendered page (without escaping them)
+            ->addHtmlContentToHead('<link rel="dns-prefetch" href="https://assets.example.com">')
+            ->addHtmlContentToBody('<script> ... </script>')
+            ->addHtmlContentToBody('<!-- generated at '.time().' -->')
+            ;
     }
+    */
 }

@@ -48,6 +48,30 @@ class ConferenceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findFutureConferenceByEstablishment(int $id): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.date > :date')
+            ->setParameter('date',  new \DateTime())
+            ->andWhere('c.establishment = :id')
+            ->setParameter('id', $id)
+            ->orderBy('c.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findPastConferenceByEstablishment(int $id): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.date < :date')
+            ->setParameter('date',  new \DateTime())
+            ->andWhere('c.establishment = :id')
+            ->setParameter('id', $id)
+            ->orderBy('c.date', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function getSearchQuery(Establishment $establishment): QueryBuilder
     {
         return $this->createQueryBuilder('r')

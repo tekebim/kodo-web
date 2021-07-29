@@ -20,6 +20,7 @@ class WidgetController extends AbstractController
     {
         $tokenGetParam = $request->query->get('token');
         $widgetIdGetParam = $request->query->get('id');
+        $widgetStyleGetParam = $request->query->get('style');
         $widget = $widgetRepository->find($widgetIdGetParam);
         $isValidToken = ($tokenGetParam === $widget->getToken());
 
@@ -36,11 +37,28 @@ class WidgetController extends AbstractController
             8
         );
 
+        $conferencesNextAll = $conferenceRepository->findFutureConferenceByEstablishment($establishtmentId);
+        $conferencesPastAll = $conferenceRepository->findPastConferenceByEstablishment($establishtmentId);
+
+        $conferencesNext = $paginator->paginate(
+            $conferencesNextAll,
+            $request->query->getInt('page', 1),
+            8
+        );
+
+        $conferencesPast = $paginator->paginate(
+            $conferencesPastAll,
+            $request->query->getInt('page', 1),
+            8
+        );
+
         return $this->render('widget/index.html.twig', [
             'isValidToken' => $isValidToken,
-            'conferences' => $conferences,
+            'conferencesNext'=> $conferencesNext,
+            'conferencesPast'=> $conferencesPast,
             'widget' => $widget,
-            'premium' => $isPremium
+            'premium' => $isPremium,
+            'widgetStyle' => $widgetStyleGetParam
         ]);
     }
 }

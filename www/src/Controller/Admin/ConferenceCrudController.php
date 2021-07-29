@@ -83,16 +83,18 @@ class ConferenceCrudController extends AbstractCrudController
         yield TextField::new('name')->setLabel('Nom de la conférence');
         yield SlugField::new('slug')->setTargetFieldName('name')->hideOnIndex();
         yield DateTimeField::new('date', 'Date de la conférence');
-        yield TextField::new('location')->setLabel('Emplacement');
+        if ($this->isGranted('ROLE_ADMIN')) {
+            yield TextField::new('location')->setLabel('Emplacement');
+            yield TextField::new('speakers')->setLabel('Intervenant(s)');
+        }
         yield TextField::new('author')->setLabel('Auteur')->hideOnIndex();
-        yield TextField::new('speakers')->setLabel('Intervenant(s)');
         if (Crud::PAGE_DETAIL === $pageName || Crud::PAGE_INDEX === $pageName) {
             yield ArrayField::new('category')->setLabel('Catégorie');
         } else {
             yield AssociationField::new('category', 'Catégorie');
         }
         yield AssociationField::new('establishment', 'Etablissement')->setPermission('ROLE_ADMIN');
-        yield IntegerField::new('likes');
+        yield IntegerField::new('likes', 'Popularité');
         yield FormField::addPanel('Description');
         yield TextEditorField::new('extract')->hideOnIndex();
         yield TextEditorField::new('description')->hideOnIndex();

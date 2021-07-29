@@ -12,12 +12,24 @@ body {
 
 }
 
+.widget-inner {
+  background-color: $white-color;
+
+  .widget-topbar {
+    background-color: $primary-color-light;
+  }
+}
+
+#widget-wrapper {
+  position: relative;
+}
+
 #overlay-not-allowed {
   display: none;
 }
 
 .overlay {
-  display: flex;
+  display: none;
   background: $primary-color;
   color: $yellow-color;
   position: fixed;
@@ -29,4 +41,5 @@ body {
   justify-content: center;
   align-items: center;
   opacity: 0.9;
+  z-index: 200;
 }
