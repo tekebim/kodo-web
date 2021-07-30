@@ -42,7 +42,7 @@ class WidgetController extends AbstractController
         $conferencesNext = $paginator->paginate(
             $conferencesNextAll,
             $request->query->getInt('page', 1),
-            8
+            3
         );
 
         $conferencesPast = $paginator->paginate(

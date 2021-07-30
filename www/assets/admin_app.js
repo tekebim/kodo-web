@@ -2,6 +2,8 @@ import './styles/admin/app.scss';
 import 'prismjs/prism'
 import 'prismjs/themes/prism-tomorrow.css'
 
+import '@fortawesome/fontawesome-free';
+
 const $ = require('jquery');
 global.$ = global.jQuery = $;
 

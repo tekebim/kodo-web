@@ -22,6 +22,53 @@ body {
 
 #widget-wrapper {
   position: relative;
+
+  .widget-tabs {
+    .tabs-title {
+      .tab-title {
+        &.event-past {
+          background-color: $primary-color-light;
+        }
+
+        &.active {
+          a {
+            color: $primary-color-light;
+          }
+        }
+
+        a {
+          padding: 1rem;
+          display: block;
+          text-align: center;
+          text-decoration: none;
+          color: $white-color;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .conferences-list {
+    padding: 1rem;
+
+    .conference-item {
+      .conference-title {
+        text-transform: uppercase;
+      }
+
+      .conferences-metas {
+        flex-direction: column;
+        @media (min-width: 500px) {
+          flex-direction: row;
+        }
+      }
+
+      a {
+        text-decoration: none;
+        color: $black-color;
+      }
+    }
+  }
 }
 
 #overlay-not-allowed {
