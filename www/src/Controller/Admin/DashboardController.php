@@ -120,6 +120,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
             yield MenuItem::linkToCrud('Établissements', 'fas fa-city', Establishment::class);
             yield MenuItem::linkToCrud('Conférences', 'fas fa-copyright', Conference::class);
+            yield MenuItem::linkToCrud('Widgets', 'fas fa-code', Widget::class);
         }
 
         if ($this->isGranted('ROLE_CONTRIBUTOR')) {

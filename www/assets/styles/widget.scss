@@ -5,6 +5,14 @@ body {
   background: white;
 }
 
+.bg-purple {
+  background-color: $purple;
+}
+
+.bg-cyan {
+  background-color: $cyan-color;
+}
+
 .widget-pro {
 }
 
@@ -56,6 +64,20 @@ body {
         text-transform: uppercase;
       }
 
+      .card-image {
+        background-size: cover;
+        background-position: center;
+        height: 100%;
+      }
+
+      .card-heading-text {
+        flex-grow: 1;
+      }
+
+      .btn-like {
+        color: $white-color;
+      }
+
       .conferences-metas {
         flex-direction: column;
         @media (min-width: 500px) {
@@ -89,4 +111,18 @@ body {
   align-items: center;
   opacity: 0.9;
   z-index: 200;
+}
+
+.pagination {
+  .page-item {
+    .page-link {
+      color: $primary-color-light;
+    }
+  }
+
+  .page-item.active .page-link {
+    color: $white-color;
+    background-color: $primary-color-light;
+    border-color: $primary-color-light;
+  }
 }
