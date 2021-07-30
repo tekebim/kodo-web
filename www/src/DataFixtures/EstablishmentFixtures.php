@@ -457,7 +457,19 @@ class EstablishmentFixtures extends Fixture
                 $establishment->setWebsite('https://www.kodotalks.com');
                 $establishment->setIsApproved(true);
                 $establishment->setIsPremium(true);
-            } else {
+            } else if($nbEstablishment === 2) {
+                $establishment->setName('kodoteam');
+                $establishment->setWebsite('https://www.kodotalks.com');
+                $establishment->setIsApproved(true);
+                $establishment->setIsPremium(true);
+            }
+            else if($nbEstablishment === 3) {
+                $establishment->setName('Charles');
+                $establishment->setWebsite('https://www.kodotalks.com');
+                $establishment->setIsApproved(true);
+                $establishment->setIsPremium(true);
+            }
+                else {
                 $establishment->setName($faker->company);
                 $establishment->setWebsite($faker->url);
                 $establishment->setIsApproved($faker->boolean(80));
@@ -466,6 +478,7 @@ class EstablishmentFixtures extends Fixture
                 $widget = new Widget();
                 $widget->addEstablishment($establishment);
                 $widget->setName('widget-' . $faker->slug(2));
+                $widget->setStyle($faker->randomElement(['large', 'compact']));
                 $widget->setToken($widget->generateToken());
                 if ($nbEstablishment === 2 || $nbEstablishment === 3) {
                     $widget->setDomainAllowed(self::DEMO_DOMAIN);

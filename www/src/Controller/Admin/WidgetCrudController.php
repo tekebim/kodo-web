@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\CrudUrlGenerator;
@@ -50,6 +51,7 @@ class WidgetCrudController extends AbstractCrudController
         yield DateTimeField::new('updatedAt', 'Dernière mise à jour')->setSortable(true)->hideOnForm()->hideOnDetail();
         yield TextField::new('token')->setFormTypeOption('disabled', 'disabled');
         yield TextField::new('domainAllowed');
+        yield ChoiceField::new('style', 'Style / Disposition')->setChoices(['Full-size' => 'full-size', 'Compact' => 'compact']);
         yield AssociationField::new('establishment')->hideOnForm()->hideOnIndex();
     }
 
@@ -62,6 +64,17 @@ class WidgetCrudController extends AbstractCrudController
         return $actions
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
             ->add(Crud::PAGE_EDIT, Action::DELETE);
+    }
+
+    public function editSettingAction(): Response
+    {
+        $response = parent::editAction();
+
+        if ($response instanceof RedirectResponse) {
+            return $this->redirectToRoute('admin_conferences');
+        }
+
+        return $response;
     }
 
     /**

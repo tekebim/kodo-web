@@ -2,48 +2,81 @@
 
 {% block main %}
     <section id="widgets-panel" class="container">
-        <h1 class="panel-main-title">Mes widgets ({{ widgets|length }}
-            ) {% if is_premium %}PRO{% else %}[version gratuite]{% endif %}</h1>
+        <h1 class="panel-main-title">Mes widgets ({{ widgets|length }})
+            {% if is_premium %}
+                <span class="badge bg-secondary"><i class="fa fa-crown"></i> Version PRO</span>
+            {% endif %}
+        </h1>
 
-        <table class="table-striped accordion accordion-flush" id="accordionFlushExample">
-            <tr class="d-flex bd-highlight accordion-item">
-                <th class="p-2 flex-grow-1 bd-highlight">Nom</th>
-                <th class="p-2 flex-grow-1 bd-highlight d-sm-none d-md-block">Nombre</th>
-                <th class="p-2 flex-grow-1 bd-highlight d-sm-none d-md-block">Token</th>
-                <th class="p-2 flex-grow-1 bd-highlight">Domaine</th>
-                <th class="p-2 flex-grow-1 bd-highlight">Création</th>
-                <th class="p-2 flex-grow-0 bd-highlight">Actions</th>
+        <table id="accordionFlushExample"
+               class="table table-responsive table-striped accordion accordion-flush w-100 my-3">
+            <tr class="accordion-item text-center">
+                <th>Nom</th>
+                <th class="d-none d-md-table-cell">Type</th>
+                <th class="d-none d-md-table-cell">Nombre</th>
+                <th>Domaine</th>
+                <th class="d-none d-sm-table-cell">Création</th>
+                <th>Actions</th>
             </tr>
-            {% for widget in widgets %}
-                {% set urlEdit = ea_url() .setController('App\\Controller\\Admin\\WidgetCrudController') .setAction('edit') .setEntityId( widget.id) %}
+            {% if widgets|length > 0 %}
+                {% for widget in widgets %}
+                    {% set urlEdit = ea_url() .setController('App\\Controller\\Admin\\WidgetCrudController') .setAction('edit') .setEntityId( widget.id) %}
 
-                <tr class="d-flex bd-highlight">
-                    <td class="p-2 flex-grow-1 bd-highlight accordion-item" data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapse-{{ widget.id }}" aria-expanded="false"
-                        aria-controls="flush-collapse-{{ widget.id }}">{{ widget.name }}</td>
-                    <td class="p-2 flex-grow-1 bd-highlight d-sm-none d-md-block">{{ loop.index }} {% if not is_premium %}/ 3{% endif %}</td>
-                    <td class="p-2 flex-grow-1 bd-highlight d-sm-none d-md-block">{{ widget.token }}</td>
-                    <td class="p-2 flex-grow-1 bd-highlight">{{ widget.domainAllowed }}</td>
-                    <td class="p-2 flex-grow-1 bd-highlight">{{ widget.updatedAt|ago }}</td>
-                    <td class="p-2 flex-grow-0 bd-highlight"><a href="{{ urlEdit }}">Editer</a></td>
-                </tr>
-                <tr id="flush-collapse-{{ widget.id }}" class="accordion-collapse collapse"
-                    aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                    <td colspan="6" class="accordion-body">
-                <textarea class="full w-100">
-                            <iframe src="http://localhost:8080/widget?id={{ widget.id }}&token={{ widget.token }}&style=compact" width="100%" frameborder="0" height="500"/>
-                        </textarea>
+                    <tr class="text-center">
+                        <td class="p-4 text-start" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapse-{{ widget.id }}" aria-expanded="false"
+                            aria-controls="flush-collapse-{{ widget.id }}"><i
+                                    class="fa fa-chevron-down"></i> {{ widget.name }}</td>
+                        <td class="p-4">{{ widget.style }}</td>
+                        <td class="p-4 d-none d-md-table-cell">{{ loop.index }}{% if not is_premium %}/3{% endif %}</td>
+                        <td class="p-4">{{ widget.domainAllowed }}</td>
+                        <td class="p-4 d-none d-sm-table-cell">{{ widget.updatedAt|ago }}</td>
+                        <td class="p-4"><a href="{{ urlEdit }}">Modifier</a></td>
+                    </tr>
+                    <tr id="flush-collapse-{{ widget.id }}" class="accordion-collapse collapse"
+                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        <td colspan="6" class="accordion-body p-5">
+                            <div class="text-center">
+                                <code class="language-markup p-2 code-preview">&lt;iframe
+                                    src="http://localhost:8080/widget?id={{ widget.id }}&token={{ widget.token }}"
+                                    width="100%" frameborder="0"
+                                    height="{% if widget.style == "compact" %}300{% else %}800{% endif %}"/&gt;</code>
+                                <div class="d-none">
+                                <textarea
+                                        id="code-widget-{{ widget.id }}"><iframe src="http://localhost:8080/widget?id={{ widget.id }}&token={{ widget.token }}" width="100%" frameborder="0" height="{% if widget.style == "compact" %}300{% else %}800{% endif %}"/></textarea>
+                                </div>
+                                <div>
+                                    <button data-bs-toggle="tooltip" type="button"
+                                            class="btn btn-primary m-3 js-tooltip js-copy"
+                                            data-toggle="tooltip" data-placement="bottom" data-copy="Copié !"
+                                            title="Copier dans le presse papier"
+                                            onclick="copyToClipboard('code-widget-{{ widget.id }}', this)">
+                                        Copier le code du widget
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="6">
+                        <div class="alert alert-secondary" role="alert">
+                            Aucun widget pour le moment
+                        </div>
                     </td>
                 </tr>
-            {% endfor %}
+            {% endif %}
         </table>
 
-        <div class="my-3">
-            <div class="alert alert-danger" role="alert">
-                Passez en <strong>version Pro</strong> pour augmenter le nombre de domaines disponibles
-                <strong>({{ widgets|length }}/3)</strong>
+        {% if widgets|length > 0 %}
+            <div class="my-3">
+                <div class="alert alert-danger" role="alert">
+                    Passez en <strong>version Pro</strong> pour augmenter le nombre de domaines disponibles
+                    <strong>({{ widgets|length }}/3)</strong>
+                </div>
             </div>
-        </div>
+        {% endif %}
 
         <div class="col-12">
             <div class="row">
@@ -54,7 +87,7 @@
                             Créer un widget
                         </a>
                     {% else %}
-                        <a href="{{ url_new_widget }}" id="btn-add-widget"  class="btn btn-primary">Créer un widget</a>
+                        <a href="{{ url_new_widget }}" id="btn-add-widget" class="btn btn-primary">Créer un widget</a>
                     {% endif %}
 
                 </div>
@@ -103,4 +136,12 @@
             </div>
         </div>
     </section>
+    <script>
+      function copyToClipboard(id) {
+        let copyText = document.getElementById(id);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+      }
+    </script>
 {% endblock %}

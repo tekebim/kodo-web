@@ -1,6 +1,7 @@
 import './styles/widget.scss';
 
 window.addEventListener("DOMContentLoaded", () => {
+  console.log('widget.js Kodo')
   const domainAllowed = window.domainAllowed;
   const domainCurrent = document.referrer;
 

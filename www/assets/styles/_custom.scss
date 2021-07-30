@@ -30,7 +30,7 @@ $theme-colors: (
 // Bootstrap doesn't allow to customize all styles using CSS variables and
 // that's when you'll need to override some of the variables of this file.
 // ----------------------------------------------------------------------------
-/*
+
 $enable-print-styles: false;
 $enable-gradients: false;
 
@@ -40,12 +40,13 @@ $text-color: hsl(225, 15%, 35%);
 $headings-color: var(--text-color-dark);
 
 $primary: #21177D;
-$secondary: $body-bg;
+$secondary: $yellow-color;
 $success: hsl(157, 69%, 38%);
 $info: hsl(201, 94%, 37%);
 $warning: hsl(30, 81%, 47%);
 $danger: hsl(344, 59%, 52%);
 
+/*
 $font-size-base: 0.875rem; // 14px;
 $font-size-lg: 1rem; // 16px;
 $font-size-sm: 0.8125rem; // 13px;

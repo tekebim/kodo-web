@@ -145,8 +145,6 @@ class ConferenceCrudController extends AbstractCrudController
                 ->getQuery()
                 ->execute();
         }
-
-
         return $response;
     }
 

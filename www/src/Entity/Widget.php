@@ -52,6 +52,11 @@ class Widget
      */
     private $updated_at;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $style;
+
     public function __construct()
     {
         $this->establishment = new ArrayCollection();
@@ -154,6 +159,18 @@ class Widget
     public function setUpdatedAt(\DateTime $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getStyle(): ?string
+    {
+        return $this->style;
+    }
+
+    public function setStyle(string $style): self
+    {
+        $this->style = $style;
 
         return $this;
     }

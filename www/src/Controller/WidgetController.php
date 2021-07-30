@@ -20,7 +20,6 @@ class WidgetController extends AbstractController
     {
         $tokenGetParam = $request->query->get('token');
         $widgetIdGetParam = $request->query->get('id');
-        $widgetStyleGetParam = $request->query->get('style');
         $widget = $widgetRepository->find($widgetIdGetParam);
         $isValidToken = ($tokenGetParam === $widget->getToken());
 
@@ -57,8 +56,7 @@ class WidgetController extends AbstractController
             'conferencesNext'=> $conferencesNext,
             'conferencesPast'=> $conferencesPast,
             'widget' => $widget,
-            'premium' => $isPremium,
-            'widgetStyle' => $widgetStyleGetParam
+            'premium' => $isPremium
         ]);
     }
 }

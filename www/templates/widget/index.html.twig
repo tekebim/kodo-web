@@ -3,11 +3,13 @@
 {% block title %}Widget KODO{% endblock %}
 
 {% block body %}
-    <div id="kodo-widget" class="widget widget-{{ widgetStyle }}">
+    <div id="kodo-widget" class="widget widget-{{ widget.style }}">
         <div class="widget-inner {% if premium %}widget-pro{% else %}widget-standard{% endif %}">
-            <div class="widget-topbar">
-                <img src="{{ asset('images/logo-kodo-yellow.svg') }}" alt="logo-kodo">
-            </div>
+            {% if not premium %}
+                <div class="widget-topbar">
+                    <img src="{{ asset('images/logo-kodo-yellow.svg') }}" alt="logo-kodo">
+                </div>
+            {% endif %}
             {% if isValidToken %}
                 {% include 'widget/overlay-error-not-allowed.html.twig' %}
                 <div id="widget-wrapper">
@@ -29,7 +31,8 @@
                                 <tbody>
                                 {% for conference in conferencesPast %}
                                     <tr>
-                                        <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt="" width="140">
+                                        <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt=""
+                                                 width="140">
                                         </td>
                                         <td>{{ conference.name }}</td>
                                         <td>{{ conference.location }}</td>
@@ -79,7 +82,8 @@
                                 <tbody>
                                 {% for conference in conferencesNext %}
                                     <tr>
-                                        <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt="" width="140">
+                                        <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt=""
+                                                 width="140">
                                         </td>
                                         <td>{{ conference.name }}</td>
                                         <td>{{ conference.location }}</td>
