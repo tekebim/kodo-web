@@ -2,8 +2,21 @@
 @import "../custom";
 // @import "~bootstrap/scss/bootstrap";
 
-body {
-  background-color: $white-color;
+:root {
+  --color-primary: #21177D;
+}
+
+#main-menu {
+  font-size: 16px;
+
+  .menu-item {
+    margin: 1em 0;
+  }
+}
+
+.form-check-input:checked {
+  background-color: $primary-color-light;
+  border-color: $primary-color-light;
 }
 
 #widgets-panel {
@@ -13,6 +26,14 @@ body {
 
   .code-preview {
     line-height: 100%;
+  }
+
+  #table-widgets {
+    background-color: $white-color;
+  }
+
+  .link-accordion {
+    cursor: pointer;
   }
 }
 

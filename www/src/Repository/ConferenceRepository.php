@@ -41,8 +41,10 @@ class ConferenceRepository extends ServiceEntityRepository
     public function findByEstablishment(int $id): array
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.establishment = :id')
+            ->where('c.establishment = :id')
             ->setParameter('id', $id)
+            ->andWhere('c.isBroadcasted = :broadcasted')
+            ->setParameter('broadcasted', true)
             ->orderBy('c.date', 'ASC')
             ->getQuery()
             ->getResult();
@@ -55,6 +57,8 @@ class ConferenceRepository extends ServiceEntityRepository
             ->setParameter('date',  new \DateTime())
             ->andWhere('c.establishment = :id')
             ->setParameter('id', $id)
+            ->andWhere('c.isBroadcasted = :broadcasted')
+            ->setParameter('broadcasted', true)
             ->orderBy('c.date', 'ASC')
             ->getQuery()
             ->getResult();
@@ -67,6 +71,8 @@ class ConferenceRepository extends ServiceEntityRepository
             ->setParameter('date',  new \DateTime())
             ->andWhere('c.establishment = :id')
             ->setParameter('id', $id)
+            ->andWhere('c.isBroadcasted = :broadcasted')
+            ->setParameter('broadcasted', true)
             ->orderBy('c.date', 'ASC')
             ->getQuery()
             ->getResult();

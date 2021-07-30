@@ -3,6 +3,29 @@
 {% block title %}Widget KODO{% endblock %}
 
 {% block body %}
+    <div id="exTab2" class="container">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a  href="#1" data-toggle="tab">Overview</a>
+            </li>
+            <li><a href="#2" data-toggle="tab">Without clearfix</a>
+            </li>
+            <li><a href="#3" data-toggle="tab">Solution</a>
+            </li>
+        </ul>
+
+        <div class="tab-content ">
+            <div class="tab-pane active" id="1">
+                <h3>Standard tab panel created on bootstrap using nav-tabs</h3>
+            </div>
+            <div class="tab-pane" id="2">
+                <h3>Notice the gap between the content and tab after applying a background color</h3>
+            </div>
+            <div class="tab-pane" id="3">
+                <h3>add clearfix to tab-content (see the css)</h3>
+            </div>
+        </div>
+    </div>
     <div id="kodo-widget" class="widget widget-{{ widget.style }}">
         <div class="widget-inner {% if premium %}widget-pro{% else %}widget-standard{% endif %}">
             {% if not premium %}
@@ -16,57 +39,6 @@
                     <div class="widget-tabs">
                         <div class="row">
                             <h1>Conférences à venir</h1>
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Image</th>
-                                    <th>Nom de la conférence</th>
-                                    <th>Localisation</th>
-                                    <th>Extract</th>
-                                    <th>Date</th>
-                                    <th>Intervenants</th>
-                                    <th>URL</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {% for conference in conferencesPast %}
-                                    <tr>
-                                        <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt=""
-                                                 width="140">
-                                        </td>
-                                        <td>{{ conference.name }}</td>
-                                        <td>{{ conference.location }}</td>
-                                        <td>
-                                            {% for category in conference.category %}
-                                                {{ category }}
-                                            {% endfor %}
-                                        </td>
-                                        <td>{{ conference.extract|u.truncate(100, '...', true) }}</td>
-                                        <td>
-                                            <span class="badge bg-danger">Terminé</span>
-                                        </td>
-                                        <td>{{ conference.speakers }}</td>
-                                        <td><a href="#"
-                                               onclick="dataLayer.push({'event': 'category-click', 'category': '{% for category in conference.category %}{{ category }}{% endfor %}'});"
-                                            >Click test event</a>
-                                            <a href="{{ conference.url }}"
-                                               onclick="dataLayer.push({'event': 'category-click', 'category': '{% for category in conference.category %}{{ category }}{% endfor %}'});"
-                                               target="_blank">URL</a></td>
-                                    </tr>
-                                {% else %}
-                                    <tr>
-                                        <td colspan="4">Aucune conférence trouvée</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                            <div class="d-flex justify-content-center">
-                                {% do conferencesPast.setPageRange(2) %}
-                                {{ knp_pagination_render(conferencesPast, 'base/pagination.html.twig') }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <h1>Conférences passées</h1>
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -121,6 +93,57 @@
                             <div class="d-flex justify-content-center">
                                 {% do conferencesNext.setPageRange(2) %}
                                 {{ knp_pagination_render(conferencesNext, 'base/pagination.html.twig') }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h1>Conférences passées</h1>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Nom de la conférence</th>
+                                    <th>Localisation</th>
+                                    <th>Extract</th>
+                                    <th>Date</th>
+                                    <th>Intervenants</th>
+                                    <th>URL</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for conference in conferencesPast %}
+                                    <tr>
+                                        <td><img src="uploads/conferences/images/{{ conference.imageName }}" alt=""
+                                                 width="140">
+                                        </td>
+                                        <td>{{ conference.name }}</td>
+                                        <td>{{ conference.location }}</td>
+                                        <td>
+                                            {% for category in conference.category %}
+                                                {{ category }}
+                                            {% endfor %}
+                                        </td>
+                                        <td>{{ conference.extract|u.truncate(100, '...', true) }}</td>
+                                        <td>
+                                            <span class="badge bg-danger">Terminé</span>
+                                        </td>
+                                        <td>{{ conference.speakers }}</td>
+                                        <td><a href="#"
+                                               onclick="dataLayer.push({'event': 'category-click', 'category': '{% for category in conference.category %}{{ category }}{% endfor %}'});"
+                                            >Click test event</a>
+                                            <a href="{{ conference.url }}"
+                                               onclick="dataLayer.push({'event': 'category-click', 'category': '{% for category in conference.category %}{{ category }}{% endfor %}'});"
+                                               target="_blank">URL</a></td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="4">Aucune conférence trouvée</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-center">
+                                {% do conferencesPast.setPageRange(2) %}
+                                {{ knp_pagination_render(conferencesPast, 'base/pagination.html.twig') }}
                             </div>
                         </div>
                     </div>

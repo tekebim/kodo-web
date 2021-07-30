@@ -75,7 +75,7 @@ class ConferenceCrudController extends AbstractCrudController
         yield ImageField::new('imageName')->setBasePath('/uploads/conferences/images/')->onlyOnIndex();
         yield TextareaField::new('imageFile')->setFormType(VichImageType::class)
             ->hideOnIndex()
-            ->setTranslationParameters(['form.label.delete'=>'Supprimer l\'image']);
+            ->setTranslationParameters(['form.label.delete' => 'Supprimer l\'image']);
         if ($this->isGranted('ROLE_ADMIN')) {
             yield BooleanField::new('isShared')->setLabel('Visible');
         }
@@ -85,10 +85,9 @@ class ConferenceCrudController extends AbstractCrudController
         yield TextField::new('name')->setLabel('Nom de la conférence');
         yield SlugField::new('slug')->setTargetFieldName('name')->hideOnIndex();
         yield DateTimeField::new('date', 'Date de la conférence');
-        if ($this->isGranted('ROLE_ADMIN')) {
-            yield TextField::new('location')->setLabel('Emplacement');
-            yield TextField::new('speakers')->setLabel('Intervenant(s)');
-        }
+        yield TextField::new('location')->setLabel('Emplacement');
+        yield TextField::new('replayUrl')->setLabel('URL vidéo de replay')->hideOnIndex();
+        yield TextField::new('speakers')->setLabel('Intervenant(s)');
         yield TextField::new('author')->setLabel('Auteur')->hideOnIndex();
         if (Crud::PAGE_DETAIL === $pageName || Crud::PAGE_INDEX === $pageName) {
             yield ArrayField::new('category')->setLabel('Catégorie');
@@ -113,7 +112,9 @@ class ConferenceCrudController extends AbstractCrudController
             $userEstablishment = $this->security->getUser()->getEstablishment();
             $establishment = $userEstablishment->getName();
             $entity->setAuthor($establishment);
+            $entity->setEstablishment($userEstablishment);
         }
+        $entity->setIsShared(false);
         $entity->setLikes(0);
         return $entity;
     }

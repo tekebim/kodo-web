@@ -8,7 +8,7 @@
             {% endif %}
         </h1>
 
-        <table id="accordionFlushExample"
+        <table id="table-widgets"
                class="table table-responsive table-striped accordion accordion-flush w-100 my-3">
             <tr class="accordion-item text-center">
                 <th>Nom</th>
@@ -23,7 +23,7 @@
                     {% set urlEdit = ea_url() .setController('App\\Controller\\Admin\\WidgetCrudController') .setAction('edit') .setEntityId( widget.id) %}
 
                     <tr class="text-center">
-                        <td class="p-4 text-start" data-bs-toggle="collapse"
+                        <td class="p-4 text-start link-accordion" data-bs-toggle="collapse"
                             data-bs-target="#flush-collapse-{{ widget.id }}" aria-expanded="false"
                             aria-controls="flush-collapse-{{ widget.id }}"><i
                                     class="fa fa-chevron-down"></i> {{ widget.name }}</td>
@@ -34,7 +34,7 @@
                         <td class="p-4"><a href="{{ urlEdit }}">Modifier</a></td>
                     </tr>
                     <tr id="flush-collapse-{{ widget.id }}" class="accordion-collapse collapse"
-                        aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                        aria-labelledby="flush-headingThree" data-bs-parent="#table-widgets">
                         <td colspan="6" class="accordion-body p-5">
                             <div class="text-center">
                                 <code class="language-markup p-2 code-preview">&lt;iframe

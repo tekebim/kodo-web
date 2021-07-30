@@ -24,7 +24,7 @@ class DashboardController extends AbstractDashboardController
     /**
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    protected function redirectToReferrer() : ?RedirectResponse
+    protected function redirectToReferrer(): ?RedirectResponse
     {
         $refererAction = $this->request->query->get('action');
         dd('redirectToReferrer');
@@ -101,7 +101,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('KodoTalks')
+            ->setTitle('Kodo')
             ->setFaviconPath('favicon.svg')
             ->setTranslationDomain('fr');
     }
@@ -115,7 +115,7 @@ class DashboardController extends AbstractDashboardController
             yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
             yield MenuItem::section('Administration');
             yield MenuItem::linkToCrud('Articles', 'fas fa-book', Articles::class);
-            yield MenuItem::linkToCrud('Podcasts', 'fas fa-microphone-alt', Podcast::class);
+            // yield MenuItem::linkToCrud('Podcasts', 'fas fa-microphone-alt', Podcast::class);
             yield MenuItem::linkToCrud('Catégories', 'fas fa-tags', Category::class);
             yield MenuItem::linkToCrud('Utilisateurs', 'fas fa-users', User::class);
             yield MenuItem::linkToCrud('Établissements', 'fas fa-city', Establishment::class);
@@ -124,15 +124,14 @@ class DashboardController extends AbstractDashboardController
 
         if ($this->isGranted('ROLE_CONTRIBUTOR')) {
             yield MenuItem::section('Configuration');
-            yield MenuItem::linkToCrud('Mes Conférences', 'fas fa-map-marker-alt', Conference::class);
-            yield MenuItem::linkToCrud('Mes widgets', 'fas fa-map-marker-alt', Widget::class)
+            yield MenuItem::linkToCrud('Conférences', 'fas fa-chalkboard-teacher', Conference::class);
+            yield MenuItem::linkToCrud('Widgets', 'fas fa-code', Widget::class)
                 ->setAction('showMyWidget');
         }
 
         yield MenuItem::section('Account');
-        yield MenuItem::linkToLogout('Déconnexion', 'fa fa-exit');
-        yield MenuItem::linkToRoute('Quitter', 'fa fa-home', 'home');
-
+        yield MenuItem::linkToRoute('Mon compte', 'fa fa-user', 'home');
+        yield MenuItem::linkToLogout('Quitter', 'fa fa-sign-out-alt');
     }
 
     /*
