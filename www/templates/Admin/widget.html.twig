@@ -1,197 +1,106 @@
 {% extends '@EasyAdmin/layout.html.twig' %}
 
 {% block main %}
-    <div class="container">
-        <h1>Mes widgets ({{ widgets|length }}) {% if is_premium %}PRO{% else %}[version gratuite]{% endif %}</h1>
+    <section id="widgets-panel" class="container">
+        <h1 class="panel-main-title">Mes widgets ({{ widgets|length }}
+            ) {% if is_premium %}PRO{% else %}[version gratuite]{% endif %}</h1>
 
-        <table class="table table-striped">
-
-            <thead>
-            <th>Nom du widget</th>
-            <th>Numéro de widget</th>
-            <th>Token sécurité</th>
-            <th>Date d'ajout</th>
-            <th>Actions</th>
-            </thead>
-
-            <tbody>
-            <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
-                <td>
-                    <button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-eye-open"></span></button>
-                </td>
-                <td>Carlos</td>
-                <td>Mathias</td>
-                <td>Leme</td>
-                <td>SP</td>
-                <td>new</td>
+        <table class="table-striped accordion accordion-flush" id="accordionFlushExample">
+            <tr class="d-flex bd-highlight accordion-item">
+                <th class="p-2 flex-grow-1 bd-highlight">Nom</th>
+                <th class="p-2 flex-grow-1 bd-highlight d-sm-none d-md-block">Nombre</th>
+                <th class="p-2 flex-grow-1 bd-highlight d-sm-none d-md-block">Token</th>
+                <th class="p-2 flex-grow-1 bd-highlight">Domaine</th>
+                <th class="p-2 flex-grow-1 bd-highlight">Création</th>
+                <th class="p-2 flex-grow-0 bd-highlight">Actions</th>
             </tr>
-
-            <tr>
-                <td colspan="12" class="hiddenRow">
-                    <div class="accordian-body collapse" id="demo1">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr class="info">
-                                <th>Job</th>
-                                <th>Company</th>
-                                <th>Salary</th>
-                                <th>Date On</th>
-                                <th>Date off</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-
-                            <tr data-toggle="collapse" class="accordion-toggle" data-target="#demo10">
-                                <td><a href="#">Enginner Software</a></td>
-                                <td>Google</td>
-                                <td>U$8.00000</td>
-                                <td> 2016/09/27</td>
-                                <td> 2017/09/27</td>
-                                <td>
-                                    <a href="#" class="btn btn-default btn-sm">
-                                        <i class="glyphicon glyphicon-cog"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td colspan="12" class="hiddenRow">
-                                    <div class="accordian-body collapse" id="demo10">
-                                        <table class="table table-striped">
-                                            <thead>
-                                            <tr>
-                                                <td><a href="#"> XPTO 1</a></td>
-                                                <td>XPTO 2</td>
-                                                <td>Obs</td>
-                                            </tr>
-                                            <tr>
-                                                <th>item 1</th>
-                                                <th>item 2</th>
-                                                <th>item 3</th>
-                                                <th>item 4</th>
-                                                <th>item 5</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td>item 1</td>
-                                                <td>item 2</td>
-                                                <td>item 3</td>
-                                                <td>item 4</td>
-                                                <td>item 5</td>
-                                                <td>
-                                                    <a href="#" class="btn btn-default btn-sm">
-                                                        <i class="glyphicon glyphicon-cog"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>Scrum Master</td>
-                                <td>Google</td>
-                                <td>U$8.00000</td>
-                                <td> 2016/09/27</td>
-                                <td> 2017/09/27</td>
-                                <td><a href="#" class="btn btn-default btn-sm">
-                                        <i class="glyphicon glyphicon-cog"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>Back-end</td>
-                                <td>Google</td>
-                                <td>U$8.00000</td>
-                                <td> 2016/09/27</td>
-                                <td> 2017/09/27</td>
-                                <td><a href="#" class="btn btn-default btn-sm">
-                                        <i class="glyphicon glyphicon-cog"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-
-                            <tr>
-                                <td>Front-end</td>
-                                <td>Google</td>
-                                <td>U$8.00000</td>
-                                <td> 2016/09/27</td>
-                                <td> 2017/09/27</td>
-                                <td><a href="#" class="btn btn-default btn-sm">
-                                        <i class="glyphicon glyphicon-cog"></i>
-                                    </a>
-                                </td>
-                            </tr>
-
-
-                            </tbody>
-                        </table>
-
-                    </div>
-                </td>
-            </tr>
-
             {% for widget in widgets %}
-                <tr>
-                    <td>
-                        <p>{{ widget.name }}</p>
-                    </td>
-                    <td>
-                        <p>{{ loop.index }} {% if not is_premium %}/ 3{% endif %}</p>
-                    </td>
-                    <td>
-                        <p>{{ widget.token }}</p>
-                    </td>
-                    <td>
-                        <p>{{ widget.domainAllowed }}</p>
-                    </td>
+                {% set urlEdit = ea_url() .setController('App\\Controller\\Admin\\WidgetCrudController') .setAction('edit') .setEntityId( widget.id) %}
+
+                <tr class="d-flex bd-highlight">
+                    <td class="p-2 flex-grow-1 bd-highlight accordion-item" data-bs-toggle="collapse"
+                        data-bs-target="#flush-collapse-{{ widget.id }}" aria-expanded="false"
+                        aria-controls="flush-collapse-{{ widget.id }}">{{ widget.name }}</td>
+                    <td class="p-2 flex-grow-1 bd-highlight d-sm-none d-md-block">{{ loop.index }} {% if not is_premium %}/ 3{% endif %}</td>
+                    <td class="p-2 flex-grow-1 bd-highlight d-sm-none d-md-block">{{ widget.token }}</td>
+                    <td class="p-2 flex-grow-1 bd-highlight">{{ widget.domainAllowed }}</td>
+                    <td class="p-2 flex-grow-1 bd-highlight">{{ widget.updatedAt|ago }}</td>
+                    <td class="p-2 flex-grow-0 bd-highlight"><a href="{{ urlEdit }}">Editer</a></td>
                 </tr>
-                <tr>
-                    <td colspan="5">
-                        <textarea class="full w-100">
+                <tr id="flush-collapse-{{ widget.id }}" class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+                    <td colspan="6" class="accordion-body">
+                <textarea class="full w-100">
                             <iframe src="http://localhost:8080/widget?id={{ widget.id }}&token={{ widget.token }}&style=compact" width="100%" frameborder="0" height="500"/>
                         </textarea>
                     </td>
                 </tr>
             {% endfor %}
-
-            </tbody>
         </table>
 
         <div class="my-3">
             <div class="alert alert-danger" role="alert">
-                Passez en version Pro pour augmenter le nombre de domaines disponibles (<strong>{{ widgets|length }}
-                    /3</strong>)
+                Passez en <strong>version Pro</strong> pour augmenter le nombre de domaines disponibles
+                <strong>({{ widgets|length }}/3)</strong>
             </div>
         </div>
 
-        <div class="container">
-            <div class="columns">
-                <div class="column is-6-desktop">
-                    <a href="{{ url_new_widget }}" class="btn btn-primary">Créer un widget</a>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-6 text-start">
+                    {% if widgets|length >= 3 %}
+                        <a href="#" id="btn-add-widget" class="btn btn-primary disabled" data-toggle="tooltip"
+                           data-placement="bottom" title="Vous avez atteint la limite 3/3 de l'offre gratuite.">
+                            Créer un widget
+                        </a>
+                    {% else %}
+                        <a href="{{ url_new_widget }}" id="btn-add-widget"  class="btn btn-primary">Créer un widget</a>
+                    {% endif %}
+
                 </div>
-                <div class="column is-6-desktop">
+                <div class="col-6 text-end">
                     {% if is_premium %}
                         <a href="{{ url_new_widget }}"
-                           class="btn btn-primary">Ajouter un domaine</a>
+                           class="btn btn-primary" id="btn-add-subdomain"><i class="fa fa-plus"></i> Ajouter un domaine</a>
                     {% else %}
                         <a href="#" id="btn-add-subdomain" class="btn btn-primary disabled" data-toggle="tooltip"
-                                data-placement="bottom" title="Cette option n'est disponible qu'avec la version Pro">
-                            Ajouter un domaine
+                           data-placement="bottom" title="Cette option n'est disponible qu'avec la version Pro">
+                            <i class="fa fa-plus"></i> Ajouter un domaine
                         </a>
                     {% endif %}
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="widgets-preview">
+            <div class="col-12">
+                <h2 class="widget-preview-title">Intégrer mon widget</h2>
+                <h3 class="widget-preview-subtitle">Copiez le code du widget que vous souhaitez intégrer, collez-le dans
+                    votre
+                    page et le tour est joué !</h3>
+                <div class="widget-card-preview card my-5">
+                    <div class="card-header">
+                        <i class="fas fa-columns"></i> Widget Full-Size
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img src="{{ asset('images/preview-widget-full.png') }}" alt="Aperçu widget complet"
+                                 class="img-fluid"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-card-preview card my-5">
+                    <div class="card-header">
+                        <i class="fas fa-layer-group"></i> Widget Compact
+                    </div>
+                    <div class="card-body">
+                        <div class="text-center">
+                            <img src="{{ asset('images/preview-widget-compact.png') }}" alt="Aperçu widget complet"
+                                 class="img-fluid"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

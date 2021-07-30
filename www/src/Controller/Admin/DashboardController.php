@@ -30,8 +30,11 @@ class DashboardController extends AbstractDashboardController
                 'accounts' => $accounts,
             ]);
         } else {
-            return $this->redirectToRoute('admin_conferences');
+            //return $this->redirectToRoute('admin_conferences');
             // return $this->conferences();
+            return $this->render('Admin/dashboard.html.twig', [
+                'accounts' => $accounts,
+            ]);
         }
     }
 

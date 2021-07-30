@@ -5,3 +5,41 @@
 body {
   background-color: $white-color;
 }
+
+#widgets-panel {
+  #btn-add-subdomain {
+    color: $white-color;
+  }
+}
+
+.panel-main-title {
+  font-size: 20px;
+  color: $primary-color;
+}
+
+.widgets-preview {
+  margin-top: 2rem;
+
+  .widget-preview-title {
+    font-size: 20px;
+    color: $primary-color;
+  }
+
+  .widget-preview-subtitle {
+    font-size: 16px;
+    color: $purple-color-light;
+    font-weight: normal;
+  }
+
+  .widget-card-preview {
+    border-color: $primary-color;
+
+    .card-header {
+      border-color: $primary-color;
+      font-size: 20px;
+      font-weight: bold;
+      color: $primary-color;
+      padding: 1rem 2rem;
+    }
+  }
+}

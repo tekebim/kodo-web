@@ -5,5 +5,6 @@ global.$ = global.jQuery = $;
 
 window.addEventListener("DOMContentLoaded", () => {
   console.log('admin_app');
-  $('#btn-add-subdomain').tooltip()
+  $('#btn-add-subdomain').tooltip();
+  $('#btn-add-widget').tooltip();
 });

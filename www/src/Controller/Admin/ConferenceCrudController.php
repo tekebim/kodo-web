@@ -73,7 +73,9 @@ class ConferenceCrudController extends AbstractCrudController
         yield FormField::addPanel('Details');
         // TextField::new('imageFile')->setFormType(VichImageType::class),
         yield ImageField::new('imageName')->setBasePath('/uploads/conferences/images/')->onlyOnIndex();
-        yield TextareaField::new('imageFile')->setFormType(VichImageType::class)->hideOnIndex();
+        yield TextareaField::new('imageFile')->setFormType(VichImageType::class)
+            ->hideOnIndex()
+            ->setTranslationParameters(['form.label.delete'=>'Supprimer l\'image']);
         if ($this->isGranted('ROLE_ADMIN')) {
             yield BooleanField::new('isShared')->setLabel('Visible');
         }
@@ -94,7 +96,7 @@ class ConferenceCrudController extends AbstractCrudController
             yield AssociationField::new('category', 'Catégorie');
         }
         yield AssociationField::new('establishment', 'Etablissement')->setPermission('ROLE_ADMIN');
-        yield IntegerField::new('likes', 'Popularité');
+        yield IntegerField::new('likes', 'Popularité')->hideOnForm();
         yield FormField::addPanel('Description');
         yield TextEditorField::new('extract')->hideOnIndex();
         yield TextEditorField::new('description')->hideOnIndex();
@@ -109,8 +111,8 @@ class ConferenceCrudController extends AbstractCrudController
         $entity = new Conference();
         if ($this->isGranted('ROLE_CONTRIBUTOR')) {
             $userEstablishment = $this->security->getUser()->getEstablishment();
-            $estblishment = $userEstablishment->getName();
-            $entity->setAuthor($estblishment);
+            $establishment = $userEstablishment->getName();
+            $entity->setAuthor($establishment);
         }
         $entity->setLikes(0);
         return $entity;
